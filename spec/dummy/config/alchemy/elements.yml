@@ -1,0 +1,19 @@
+- name: article
+  contents:
+  - name: headline
+    type: EssenceText
+    default: 'This is a headline everybody should be able to search for.'
+  - name: text
+    type: EssenceRichtext
+    default: 'This is a text block everybody should be able to search for.'
+
+- name: secrets
+  contents:
+  - name: passwords
+    type: EssenceText
+    searchable: false
+    default: 'This is my secret password.'
+  - name: confidential
+    type: EssenceRichtext
+    searchable: false
+    default: 'This is some confidential text.'

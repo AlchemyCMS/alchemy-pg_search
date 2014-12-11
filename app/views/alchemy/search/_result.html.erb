@@ -1,0 +1,13 @@
+<li class="search_result">
+  <h3><%= link_to page.name, show_alchemy_page_path(page) %></h3>
+  <% if elements.any? %>
+    <% elements.each do |element| %>
+      <% element.searchable_contents.each do |content| %>
+      <p><%= highlighted_excerpt(content.searchable_ingredient.to_s, params[:query]) %></p>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p><%= page.meta_description %></p>
+  <% end %>
+  <p><%= link_to page.urlname, show_alchemy_page_path(page) %></p>
+</li>

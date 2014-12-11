@@ -1,0 +1,1 @@
+../../../../db/migrate/20141211110126_add_searchable_to_alchemy_essence_pictures.rb

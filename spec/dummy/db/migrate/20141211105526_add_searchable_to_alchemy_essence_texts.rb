@@ -1,0 +1,1 @@
+../../../../db/migrate/20141211105526_add_searchable_to_alchemy_essence_texts.rb
