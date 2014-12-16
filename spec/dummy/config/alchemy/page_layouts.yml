@@ -1,4 +1,15 @@
+- name: intro
+  unique: true
+
 - name: standard
   elements:
   - article
   - secrets
+
+- name: search
+  searchresults: true
+  unique: true
+  elements:
+  - searchresults
+  autogenerate:
+  - searchresults

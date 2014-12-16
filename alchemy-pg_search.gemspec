@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "alchemy_cms", [">= 3.0", "< 4.0"]
   spec.add_runtime_dependency "pg_search", ["~> 0.7"]
+  spec.add_runtime_dependency "pg"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

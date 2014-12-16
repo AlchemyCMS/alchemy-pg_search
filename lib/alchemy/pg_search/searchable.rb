@@ -17,9 +17,9 @@ module Alchemy
       extend ActiveSupport::Concern
 
       included do
-        before_save do
+        before_update do
           write_attribute(:searchable, description.fetch('searchable', true))
-          return true
+          true
         end
       end
     end

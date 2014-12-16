@@ -6,6 +6,8 @@
   - name: text
     type: EssenceRichtext
     default: 'This is a text block everybody should be able to search for.'
+  - name: image
+    type: EssencePicture
 
 - name: secrets
   contents:
@@ -17,3 +19,9 @@
     type: EssenceRichtext
     searchable: false
     default: 'This is some confidential text.'
+  - name: image
+    type: EssencePicture
+    searchable: false
+
+- name: searchresults
+  unique: true

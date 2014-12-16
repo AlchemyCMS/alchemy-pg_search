@@ -47,12 +47,13 @@ module Alchemy
       # @return [Array]
       #
       def search_results
+        pages = Page.published.contentpages.with_language(Language.current.id)
         # Since CanCan cannot (oh the irony) merge +accessible_by+ scope with pg_search scopes,
         # we need to fake a page object here
         if can? :show, Alchemy::Page.new(restricted: true, public: true)
-          Page.published.contentpages.search(params[:query])
+          pages.search(params[:query])
         else
-          Page.not_restricted.published.contentpages.search(params[:query])
+          pages.not_restricted.search(params[:query])
         end
       end
 
@@ -64,7 +65,7 @@ module Alchemy
         @search_result_page ||= begin
           page = Page.published.find_by(
             page_layout: search_result_page_layout['name'],
-            language_id: session[:alchemy_language_id]
+            language_id: Language.current.id
           )
           if page.nil?
             logger.warn "\n++++++\nNo published search result page found. Please create one or publish your search result page.\n++++++\n"

@@ -12,29 +12,29 @@ Alchemy::Element.class_eval do
     }
 
   has_many :searchable_essence_texts,
+    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceText',
     source_type: 'Alchemy::EssenceText',
     through: :contents,
-    source: :essence,
-    conditions: {searchable: true, alchemy_elements: {public: true}}
+    source: :essence
 
   has_many :searchable_essence_richtexts,
+    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceRichtext',
     source_type: 'Alchemy::EssenceRichtext',
     through: :contents,
-    source: :essence,
-    conditions: {searchable: true, alchemy_elements: {public: true}}
+    source: :essence
 
   has_many :searchable_essence_pictures,
+    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssencePicture',
     source_type: 'Alchemy::EssencePicture',
     through: :contents,
-    source: :essence,
-    conditions: {searchable: true, alchemy_elements: {public: true}}
+    source: :essence
 
   has_many :searchable_contents,
+    -> { where(essence_type: ['Alchemy::EssenceText', 'Alchemy::EssenceRichtext', 'Alchemy::EssencePicture']) },
     class_name: 'Alchemy::Content',
-    source: :contents,
-    conditions: {essence_type: ['Alchemy::EssenceText', 'Alchemy::EssenceRichtext', 'Alchemy::EssencePicture']}
+    source: :contents
 
 end
