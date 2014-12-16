@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/magiclabs/alchemy-pg_search.svg?branch=master)](https://travis-ci.org/magiclabs/alchemy-pg_search)
+
 # Alchemy CMS 3.0 Postgresql Fulltext Search
 
 This gem provides full text search for projects using postgresql databases to Alchemy CMS 3.0 and above.
