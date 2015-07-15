@@ -7,10 +7,10 @@ Alchemy::Content.class_eval do
   #
   def prepared_attributes_for_essence
     attributes = {
-      ingredient: default_text(description['default'])
+      ingredient: default_text(definition['default'])
     }
-    if Alchemy::PgSearch.is_searchable_essence?(description['type'])
-      attributes.merge!(searchable: description.fetch('searchable', true))
+    if Alchemy::PgSearch.is_searchable_essence?(definition['type'])
+      attributes.merge!(searchable: definition.fetch('searchable', true))
     end
     attributes
   end
