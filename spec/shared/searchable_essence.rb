@@ -10,7 +10,7 @@ shared_examples_for 'an searchable essence' do
 
   context 'with searchable set to true' do
     before do
-      allow(content).to receive(:description).and_return({
+      allow(content).to receive(:definition).and_return({
         'type' => essence_type,
         'searchable' => true
       })
@@ -24,7 +24,7 @@ shared_examples_for 'an searchable essence' do
 
   context 'with searchable set to false' do
     before do
-      allow(content).to receive(:description).and_return({
+      allow(content).to receive(:definition).and_return({
         'type' => essence_type,
         'searchable' => false
       })
@@ -38,7 +38,7 @@ shared_examples_for 'an searchable essence' do
 
   context 'with searchable key missing' do
     before do
-      allow(content).to receive(:description).and_return({
+      allow(content).to receive(:definition).and_return({
         'type' => essence_type
       })
     end
