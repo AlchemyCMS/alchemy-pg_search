@@ -82,7 +82,7 @@ module Alchemy
           end
 
           before do
-            PagesController.any_instance.stub(:current_user).and_return(member)
+            allow_any_instance_of(PagesController).to receive(:current_user).and_return(member)
           end
 
           it "displays results" do
@@ -100,7 +100,7 @@ module Alchemy
 
         before do
           element
-          PagesController.any_instance.stub(:multi_language?).and_return(true)
+          allow_any_instance_of(PagesController).to receive(:multi_language?).and_return(true)
         end
 
         it "does not display search results from other languages" do

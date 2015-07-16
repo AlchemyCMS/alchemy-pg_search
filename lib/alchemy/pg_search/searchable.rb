@@ -1,7 +1,7 @@
 module Alchemy
   module PgSearch
 
-    # Ensures that the current content description value for +searchable+ gets persisted.
+    # Ensures that the current content definition value for +searchable+ gets persisted.
     #
     # It is enabled per default, but you can disable indexing in your +elements.yml+ file.
     #
@@ -18,7 +18,7 @@ module Alchemy
 
       included do
         before_update do
-          write_attribute(:searchable, description.fetch('searchable', true))
+          write_attribute(:searchable, definition.fetch('searchable', true))
           true
         end
       end
