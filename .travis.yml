@@ -1,17 +1,11 @@
+sudo: false
 language: ruby
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1
+  - 2.2
 branches:
   only:
     - master
 before_script: 'rake alchemy:spec:prepare'
 script: rspec
-notifications:
-  irc:
-    on_success: change
-    on_failure: always
-    use_notice: true
-    channels:
-      - "irc.freenode.org#alchemy_cms"
