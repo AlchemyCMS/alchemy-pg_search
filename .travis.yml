@@ -6,6 +6,6 @@ rvm:
   - 2.2
 branches:
   only:
-    - master
+    - 0.1-stable
 before_script: 'rake alchemy:spec:prepare'
 script: rspec
