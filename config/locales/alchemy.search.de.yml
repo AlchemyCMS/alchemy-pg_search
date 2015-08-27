@@ -10,5 +10,5 @@ de:
       no_results: "Ihre Suche nach '%{query}' ergab keine Treffer."
       result_heading: "Ihre Suche nach '%{query}'"
       result_count:
-        one: "Ergab einen Treffer"
-        other: "Ergab %{count} Treffer"
+        one: "ergab einen Treffer"
+        other: "ergab %{count} Treffer"
