@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "alchemy_cms", [">= 4.0.0.beta", "< 5.0"]
+  spec.add_runtime_dependency "alchemy_cms", ["> 3.2", "< 4.0"]
   spec.add_runtime_dependency "pg_search", ["~> 0.7"]
   spec.add_runtime_dependency "pg"
 
