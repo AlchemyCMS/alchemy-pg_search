@@ -3,10 +3,10 @@
     method: 'get', id: options[:id], class: options[:class] do %>
     <% if options[:html5] %>
       <%= search_field_tag :query, params[:query],
-        placeholder: _t(:placeholder, scope: 'search_form') %>
+        placeholder: Alchemy.t(:placeholder, scope: 'search_form') %>
     <% else %>
       <%= text_field_tag(:query, params[:query]) %>
     <% end %>
-    <%= submit_tag _t(:submit, scope: 'search_form'), name: nil %>
+    <%= submit_tag Alchemy.t(:submit, scope: 'search_form'), name: nil %>
   <% end %>
 <% end %>

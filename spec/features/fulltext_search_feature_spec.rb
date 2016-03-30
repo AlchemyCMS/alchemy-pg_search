@@ -3,7 +3,7 @@ require 'spec_helper'
 module Alchemy
   describe 'Fulltext search' do
     let!(:search_page) do
-      create(:public_page, name: 'Suche', page_layout: 'search', do_not_autogenerate: false)
+      create(:alchemy_page, :public, name: 'Suche', page_layout: 'search', do_not_autogenerate: false)
     end
 
     it "form has correct path in the form tag" do
@@ -12,8 +12,8 @@ module Alchemy
     end
 
     context 'displaying search results' do
-      let!(:public_page) { create(:public_page, visible: true, name: 'Page 1') }
-      let!(:element)     { create(:element, page: public_page, create_contents_after_create: true) }
+      let!(:public_page) { create(:alchemy_page, :public, visible: true, name: 'Page 1') }
+      let!(:element)     { create(:alchemy_element, page: public_page, create_contents_after_create: true) }
 
       it "displays search results from text essences" do
         visit('/suche?query=search')
@@ -39,7 +39,7 @@ module Alchemy
 
       context 'with unsearchable contents' do
         let!(:secret_element) do
-          create(:element, name: 'secrets', page: public_page, create_contents_after_create: true)
+          create(:alchemy_element, name: 'secrets', page: public_page, create_contents_after_create: true)
         end
 
         before do
@@ -93,10 +93,10 @@ module Alchemy
       end
 
       context "in multi_language mode" do
-        let(:english_language)      { create(:english) }
-        let(:english_language_root) { create(:language_root_page, language: english_language, name: 'Home') }
-        let(:english_page)          { create(:public_page, parent_id: english_language_root.id, language: english_language) }
-        let!(:english_element)      { create(:element, page_id: english_page.id, name: 'article', create_contents_after_create: true) }
+        let(:english_language)      { create(:alchemy_language, :english) }
+        let(:english_language_root) { create(:alchemy_page, :language_root, language: english_language, name: 'Home') }
+        let(:english_page)          { create(:alchemy_page, :public, parent_id: english_language_root.id, language: english_language) }
+        let!(:english_element)      { create(:alchemy_element, page_id: english_page.id, name: 'article', create_contents_after_create: true) }
 
         before do
           element
