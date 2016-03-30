@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/AlchemyCMS/alchemy-pg_search.svg?branch=master)](https://travis-ci.org/AlchemyCMS/alchemy-pg_search)
 
-# Alchemy CMS 4.0 Postgresql Fulltext Search
+# Alchemy CMS Postgresql Fulltext Search
 
-This gem provides full text search for projects using postgresql databases to Alchemy CMS 4.0 and above.
+This gem provides full text search for projects using postgresql databases to Alchemy CMS 3.3 and above.
 
 ## Installation
 
