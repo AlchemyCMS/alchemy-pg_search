@@ -9,7 +9,7 @@ This gem provides full text search for projects using postgresql databases to Al
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'alchemy-pg_search', github: 'AlchemCMS/alchemy-pg_search', branch: 'master'
+gem 'alchemy-pg_search', github: 'AlchemyCMS/alchemy-pg_search', branch: 'master'
 ```
 
 And then execute:
