@@ -61,7 +61,7 @@ module Alchemy
       end
 
       it "does not display results placed on unpublished pages" do
-        public_page.update!(public: false)
+        public_page.update!(public_on: nil)
         visit('/suche?query=search')
         expect(page).to have_css('h2.no_search_results')
       end
