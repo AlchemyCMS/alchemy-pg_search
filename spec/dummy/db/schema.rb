@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716154514) do
+ActiveRecord::Schema.define(version: 20160816091133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20150716154514) do
     t.integer  "updater_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "link_text"
   end
 
   create_table "alchemy_essence_htmls", force: :cascade do |t|
@@ -197,6 +198,7 @@ ActiveRecord::Schema.define(version: 20150716154514) do
     t.boolean  "default",        default: false
     t.string   "country_code",   default: "",      null: false
     t.integer  "site_id"
+    t.string   "locale"
   end
 
   add_index "alchemy_languages", ["language_code", "country_code"], name: "index_alchemy_languages_on_language_code_and_country_code", using: :btree
@@ -226,8 +228,6 @@ ActiveRecord::Schema.define(version: 20150716154514) do
     t.integer  "parent_id"
     t.integer  "depth"
     t.boolean  "visible",          default: false
-    t.boolean  "public",           default: false
-    t.boolean  "locked",           default: false
     t.integer  "locked_by"
     t.boolean  "restricted",       default: false
     t.boolean  "robot_index",      default: true
@@ -241,10 +241,15 @@ ActiveRecord::Schema.define(version: 20150716154514) do
     t.integer  "language_id"
     t.text     "cached_tag_list"
     t.datetime "published_at"
+    t.datetime "public_on"
+    t.datetime "public_until"
+    t.datetime "locked_at"
   end
 
   add_index "alchemy_pages", ["language_id"], name: "index_pages_on_language_id", using: :btree
+  add_index "alchemy_pages", ["locked_at", "locked_by"], name: "index_alchemy_pages_on_locked_at_and_locked_by", using: :btree
   add_index "alchemy_pages", ["parent_id", "lft"], name: "index_pages_on_parent_id_and_lft", using: :btree
+  add_index "alchemy_pages", ["public_on", "public_until"], name: "index_alchemy_pages_on_public_on_and_public_until", using: :btree
   add_index "alchemy_pages", ["urlname"], name: "index_pages_on_urlname", using: :btree
 
   create_table "alchemy_pictures", force: :cascade do |t|
@@ -260,6 +265,7 @@ ActiveRecord::Schema.define(version: 20150716154514) do
     t.text     "cached_tag_list"
     t.string   "image_file_uid"
     t.integer  "image_file_size"
+    t.string   "image_file_format"
   end
 
   create_table "alchemy_sites", force: :cascade do |t|
