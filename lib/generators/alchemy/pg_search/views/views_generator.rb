@@ -5,9 +5,10 @@ module Alchemy
     class ViewsGenerator < ::Rails::Generators::Base
       desc "This generator copies the search form and result views into your project."
 
+      source_root File.expand_path("../../../../../app/views/alchemy", File.dirname(__FILE__))
+
       def copy_views
-        directory File.expand_path('../../../../../app/views/alchemy/search', File.dirname(__FILE__)),
-          Rails.root.join('app/views/alchemy/search')
+        directory 'search', Rails.root.join('app/views/alchemy/search')
       end
     end
   end
