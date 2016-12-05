@@ -2,7 +2,7 @@ require 'spec_helper'
 
 shared_examples_for 'an searchable essence' do
   let(:essence_type) { essence_class.model_name.name.demodulize }
-  let(:content)      { Alchemy::Content.new }
+  let(:content)      { create(:alchemy_content) }
 
   before do
     allow(content).to receive(:essence_class).and_return(essence_class)
