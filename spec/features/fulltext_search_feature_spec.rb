@@ -110,6 +110,28 @@ module Alchemy
           expect(page).to_not have_css('.search_result_list')
         end
       end
+
+      context "with nested elements" do
+        let!(:nested_element) do
+          create :alchemy_element,
+            page: public_page,
+            create_contents_after_create: true,
+            parent_element: element
+        end
+
+        before do
+          nested_element.content_by_name('headline').essence.update!({
+            body: 'Content from nested element'
+          })
+        end
+
+        it "displays search results from nested elements" do
+          visit('/suche?query=Nested')
+          within('.search_results') do
+            expect(page).to have_content('Content from nested element')
+          end
+        end
+      end
     end
   end
 end

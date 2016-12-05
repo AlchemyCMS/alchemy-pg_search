@@ -22,24 +22,24 @@ Alchemy::Page.class_eval do
     -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceText',
     source_type: 'Alchemy::EssenceText',
-    through: :contents,
+    through: :descendent_contents,
     source: :essence
 
   has_many :searchable_essence_richtexts,
     -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceRichtext',
     source_type: 'Alchemy::EssenceRichtext',
-    through: :contents,
+    through: :descendent_contents,
     source: :essence
 
   has_many :searchable_essence_pictures,
     -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssencePicture',
     source_type: 'Alchemy::EssencePicture',
-    through: :contents,
+    through: :descendent_contents,
     source: :essence
 
   def element_search_results(query)
-    elements.search(query)
+    descendent_elements.search(query)
   end
 end
