@@ -133,5 +133,47 @@ module Alchemy
         end
       end
     end
+
+    describe "pagination" do
+      before do
+        12.times do
+          create :alchemy_element,
+            page: create(:alchemy_page, :public, visible: true),
+            create_contents_after_create: true
+        end
+      end
+
+      context "when default config is used" do
+        it "displays 10 results per page" do
+          visit('/suche?query=text%20block')
+
+          within '.search_results_heading' do
+            expect(page).to have_text('12 Treffer')
+          end
+          within '.search_result_list' do
+            expect(page).to have_text('text block', count: 10)
+          end
+        end
+      end
+
+      context "when disabled per config" do
+        before do
+          Alchemy::PgSearch.config = {
+            paginate_per: nil
+          }
+        end
+
+        it "displays all results on one page" do
+          visit('/suche?query=text%20block')
+
+          within '.search_results_heading' do
+            expect(page).to have_text('12 Treffer')
+          end
+          within '.search_result_list' do
+            expect(page).to have_text('text block', count: 12)
+          end
+        end
+      end
+    end
   end
 end

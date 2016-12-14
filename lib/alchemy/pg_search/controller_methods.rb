@@ -39,7 +39,9 @@ module Alchemy
         end
         return if params[:query].blank?
         @search_results = search_results
-        @search_results = @search_results.page(params[:page]).per(10)
+        if paginate_per
+          @search_results = @search_results.page(params[:page]).per(paginate_per)
+        end
       end
 
       # Find Pages that have what is provided in "query" param with PgSearch
@@ -80,6 +82,10 @@ module Alchemy
           raise "No searchresults page layout found. Please add page layout with `searchresults: true` into your `page_layouts.yml` file."
         end
         page_layout
+      end
+
+      def paginate_per
+        Alchemy::PgSearch.config[:paginate_per]
       end
     end
   end

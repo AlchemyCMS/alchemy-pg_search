@@ -6,7 +6,8 @@
   <% else %>
     <h2 class="search_results_heading">
       <%= raw Alchemy.t("search_result_page.result_heading", query: h(params[:query])) %>
-      <%= Alchemy.t("search_result_page.result_count", count: @search_results.length) %>
+      <%= Alchemy.t("search_result_page.result_count",
+        count: @search_results.try(:total_count) || @search_results.size) %>
     </h2>
     <ul class="search_result_list">
       <% @search_results.each do |page| %>
@@ -20,6 +21,6 @@
   <% end %>
 </div>
 
-<% if @search_results %>
+<% if @search_results.try(:total_pages) %>
   <%= paginate @search_results %>
 <% end %>
