@@ -3,7 +3,7 @@ Alchemy::Page.class_eval do
 
   # Enable Postgresql full text indexing.
   #
-  pg_search_scope :search, against: {
+  pg_search_scope :full_text_search, against: {
       meta_description: 'B',
       meta_keywords:    'B',
       title:            'B',
@@ -40,6 +40,6 @@ Alchemy::Page.class_eval do
     source: :essence
 
   def element_search_results(query)
-    descendent_elements.search(query)
+    descendent_elements.full_text_search(query)
   end
 end

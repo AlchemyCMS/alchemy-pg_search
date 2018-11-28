@@ -53,9 +53,9 @@ module Alchemy
         # Since CanCan cannot (oh the irony) merge +accessible_by+ scope with pg_search scopes,
         # we need to fake a page object here
         if can? :show, Alchemy::Page.new(restricted: true, public_on: Date.current)
-          pages.search(params[:query])
+          pages.full_text_search(params[:query])
         else
-          pages.not_restricted.search(params[:query])
+          pages.not_restricted.full_text_search(params[:query])
         end
       end
 
