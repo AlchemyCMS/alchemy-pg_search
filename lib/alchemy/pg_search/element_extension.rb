@@ -1,7 +1,7 @@
 Alchemy::Element.class_eval do
   include PgSearch
 
-  pg_search_scope :search,
+  pg_search_scope :full_text_search,
     associated_against: {
       searchable_essence_texts:     :body,
       searchable_essence_richtexts: :stripped_body,
