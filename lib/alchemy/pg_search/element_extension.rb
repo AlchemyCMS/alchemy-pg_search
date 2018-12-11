@@ -12,21 +12,21 @@ Alchemy::Element.class_eval do
     }
 
   has_many :searchable_essence_texts,
-    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
+    -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceText',
     source_type: 'Alchemy::EssenceText',
     through: :contents,
     source: :essence
 
   has_many :searchable_essence_richtexts,
-    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
+    -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssenceRichtext',
     source_type: 'Alchemy::EssenceRichtext',
     through: :contents,
     source: :essence
 
   has_many :searchable_essence_pictures,
-    -> { joins(:element).where(searchable: true, alchemy_elements: {public: true}) },
+    -> { where(searchable: true, alchemy_elements: {public: true}) },
     class_name: 'Alchemy::EssencePicture',
     source_type: 'Alchemy::EssencePicture',
     through: :contents,
