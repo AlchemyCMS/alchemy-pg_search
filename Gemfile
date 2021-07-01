@@ -8,7 +8,7 @@ gem "sassc-rails"
 gem "pg", "< 1.0"
 
 group :test do
-  gem "factory_girl_rails"
+  gem "factory_bot_rails", "~> 4.8.0"
   gem "capybara"
   gem "pry"
   gem "launchy"
