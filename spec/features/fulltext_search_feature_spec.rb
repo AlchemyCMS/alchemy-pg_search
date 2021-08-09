@@ -132,6 +132,44 @@ module Alchemy
           end
         end
       end
+
+      context "with non public elements" do
+        let!(:public_page) { create(:alchemy_page, :public, visible: true, name: "Page 1") }
+
+        let!(:element) do
+          create(:alchemy_element, public: false, page: public_page, create_contents_after_create: true)
+        end
+
+        before do
+          element.contents.essence_pictures.first.essence.update!(caption: "This is a secret caption.")
+        end
+
+        it "does not displays search results" do
+          visit('/suche?query=caption')
+          within('.search_results') do
+            expect(page).not_to have_content('This is a secret caption.')
+          end
+        end
+      end
+
+      context "with public elements" do
+        let!(:public_page) { create(:alchemy_page, :public, visible: true, name: 'Page 1') }
+
+        let!(:element) do
+          create(:alchemy_element, public: true, page: public_page, create_contents_after_create: true)
+        end
+
+        before do
+          element.contents.essence_pictures.first.essence.update!(caption: 'This is a secret caption.')
+        end
+
+        it "displays search results" do
+          visit('/suche?query=caption')
+          within('.search_results') do
+            expect(page).to have_content('This is a secret caption.')
+          end
+        end
+      end
     end
 
     describe "pagination" do
