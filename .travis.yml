@@ -1,10 +1,13 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.3
-  - 2.4
+  - 2.5
+services:
+  - postgresql
+cache:
+  - bundler
 branches:
   only:
     - master
-before_script: 'rake alchemy:spec:prepare'
-script: rspec
+before_script: bundle exec rake alchemy:spec:prepare
+script: bundle exec rspec
