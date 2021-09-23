@@ -8,6 +8,6 @@ cache:
   - bundler
 branches:
   only:
-    - master
+    - main
 before_script: bundle exec rake alchemy:spec:prepare
 script: bundle exec rspec
