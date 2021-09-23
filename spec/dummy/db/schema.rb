@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210701202923) do
+ActiveRecord::Schema.define(version: 20210923092559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,14 +39,15 @@ ActiveRecord::Schema.define(version: 20210701202923) do
 
   create_table "alchemy_contents", force: :cascade do |t|
     t.string   "name"
-    t.string   "essence_type", null: false
-    t.integer  "essence_id",   null: false
-    t.integer  "element_id",   null: false
+    t.string   "essence_type",                null: false
+    t.integer  "essence_id",                  null: false
+    t.integer  "element_id",                  null: false
     t.integer  "position"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "creator_id"
     t.integer  "updater_id"
+    t.boolean  "searchable",   default: true, null: false
     t.index ["element_id", "position"], name: "index_contents_on_element_id_and_position", using: :btree
     t.index ["essence_id", "essence_type"], name: "index_alchemy_contents_on_essence_id_and_essence_type", unique: true, using: :btree
   end
@@ -135,12 +136,11 @@ ActiveRecord::Schema.define(version: 20210701202923) do
     t.string   "link_target"
     t.integer  "creator_id"
     t.integer  "updater_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "crop_from"
     t.string   "crop_size"
     t.string   "render_size"
-    t.boolean  "searchable",      default: true
     t.index ["picture_id"], name: "index_alchemy_essence_pictures_on_picture_id", using: :btree
   end
 
@@ -150,9 +150,8 @@ ActiveRecord::Schema.define(version: 20210701202923) do
     t.boolean  "public"
     t.integer  "creator_id"
     t.integer  "updater_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "searchable",    default: true
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "alchemy_essence_selects", force: :cascade do |t|
@@ -175,7 +174,6 @@ ActiveRecord::Schema.define(version: 20210701202923) do
     t.integer  "updater_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.boolean  "searchable",      default: true
   end
 
   create_table "alchemy_folded_pages", force: :cascade do |t|

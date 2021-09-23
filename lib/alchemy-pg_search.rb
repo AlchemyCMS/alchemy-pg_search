@@ -4,9 +4,9 @@ require "alchemy/pg_search/page_search_scope"
 
 module Alchemy
   module PgSearch
-    SEARCHABLE_ESSENCES = %w(EssenceText EssenceRichtext EssencePicture)
+    SEARCHABLE_ESSENCES = %w[EssenceText EssenceRichtext EssencePicture]
     DEFAULT_CONFIG = {
-      page_search_scope: PageSearchScope.new
+      page_search_scope: PageSearchScope.new,
     }
 
     extend Config

@@ -1,30 +1,29 @@
-Alchemy::Content.class_eval do
-
-  # Prepares the attributes for creating the essence.
-  #
-  # 1. It sets a default text if given in +elements.yml+
-  # 2. It sets searchable value for EssenceText, EssencePicture and EssenceRichtext essences
-  #
-  def prepared_attributes_for_essence
-    attributes = {
-      ingredient: default_text(definition['default'])
-    }
-    if Alchemy::PgSearch.is_searchable_essence?(definition['type'])
-      attributes.merge!(searchable: definition.fetch('searchable', true))
+module Alchemy::PgSearch::ContentExtension
+  module ClassMethods
+    def build(element, essence_hash)
+      definition = content_definition(element, essence_hash)
+      super.tap do |content|
+        content.searchable = definition.key?(:searchable) ? definition[:searchable] : true
+      end
     end
-    attributes
+
+    Alchemy::Content.singleton_class.prepend self
   end
 
-  def searchable_ingredient
-    case essence_type
-    when 'Alchemy::EssencePicture'
-      then essence.caption
-    when 'Alchemy::EssenceRichtext'
-      then essence.stripped_body
-    when 'Alchemy::EssenceText'
-      then essence.body
-    else
-      ingredient
+  module InstanceMethods
+    def searchable_ingredient
+      case essence_type
+      when "Alchemy::EssencePicture"
+        essence.caption
+      when "Alchemy::EssenceRichtext"
+        essence.stripped_body
+      when "Alchemy::EssenceText"
+        essence.body
+      else
+        ingredient
+      end
     end
+
+    Alchemy::Content.prepend self
   end
 end

@@ -23,13 +23,13 @@ module Alchemy
       # @option options class [String] (fulltext_search) The default css class of the form
       # @option options id [String] (search) The default css id of the form
       #
-      def render_search_form(options={})
+      def render_search_form(options = {})
         default_options = {
           html5: false,
-          class: 'fulltext_search',
-          id: 'search'
+          class: "fulltext_search",
+          id: "search",
         }
-        render 'alchemy/search/form', options: default_options.merge(options), search_result_page: search_result_page
+        render "alchemy/search/form", options: default_options.merge(options), search_result_page: search_result_page
       end
 
       # Renders the search results partial within +app/views/alchemy/search/_results.html+
@@ -37,12 +37,12 @@ module Alchemy
       # @option options show_result_count [Boolean] (true) Should the count of results be displayed or not?
       # @option options show_heading [Boolean] (true) Should the heading be displayed or not?
       #
-      def render_search_results(options={})
+      def render_search_results(options = {})
         default_options = {
           show_result_count: true,
-          show_heading: true
+          show_heading: true,
         }
-        render 'alchemy/search/results', options: default_options.merge(options)
+        render "alchemy/search/results", options: default_options.merge(options)
       end
 
       def highlighted_excerpt(text, phrase, radius = 50)
