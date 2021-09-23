@@ -1,27 +1,49 @@
 - name: article
   contents:
-  - name: headline
-    type: EssenceText
-    default: 'This is a headline everybody should be able to search for.'
-  - name: text
-    type: EssenceRichtext
-    default: 'This is a text block everybody should be able to search for.'
-  - name: image
-    type: EssencePicture
+    - name: headline
+      type: EssenceText
+      default: "This is a headline everybody should be able to search for."
+    - name: text
+      type: EssenceRichtext
+      default: "This is a text block everybody should be able to search for."
+    - name: image
+      type: EssencePicture
 
 - name: secrets
   contents:
-  - name: passwords
-    type: EssenceText
-    searchable: false
-    default: 'This is my secret password.'
-  - name: confidential
-    type: EssenceRichtext
-    searchable: false
-    default: 'This is some confidential text.'
-  - name: image
-    type: EssencePicture
-    searchable: false
+    - name: passwords
+      type: EssenceText
+      searchable: false
+      default: "This is my secret password."
+    - name: confidential
+      type: EssenceRichtext
+      searchable: false
+      default: "This is some confidential text."
+    - name: image
+      type: EssencePicture
+      searchable: false
+
+- name: mixed
+  contents:
+    - name: title
+      type: EssenceText
+      default: "This is my public title."
+    - name: password
+      type: EssenceText
+      default: "This is my secret password."
+      searchable: false
+    - name: public
+      type: EssenceRichtext
+      default: "This is some public text."
+    - name: confidential
+      type: EssenceRichtext
+      searchable: false
+      default: "This is some confidential text."
+    - name: image
+      type: EssencePicture
+    - name: secret_image
+      type: EssencePicture
+      searchable: false
 
 - name: searchresults
   unique: true
