@@ -1,15 +1,15 @@
-[![Build Status](https://travis-ci.org/AlchemyCMS/alchemy-pg_search.svg?branch=master)](https://travis-ci.org/AlchemyCMS/alchemy-pg_search)
+[![Build Status](https://travis-ci.org/AlchemyCMS/alchemy-pg_search.svg?branch=main)](https://travis-ci.org/AlchemyCMS/alchemy-pg_search)
 
 # Alchemy CMS Postgresql Fulltext Search
 
-This gem provides full text search for projects using postgresql databases to Alchemy CMS 3.3 and above.
+This gem provides full text search for projects using postgresql databases to Alchemy CMS 4.0 and above.
 
 ## Installation
 
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'alchemy-pg_search', github: 'AlchemyCMS/alchemy-pg_search', branch: 'master'
+gem 'alchemy-pg_search', github: 'AlchemyCMS/alchemy-pg_search', branch: 'main'
 ```
 
 And then execute:
@@ -120,7 +120,7 @@ en:
 
 ## Upgrading
 
-If you are upgrading from an old Alchemy < 3.0 based project that uses the ferret based full text search, please run this handy generator:
+If you are upgrading from an old Alchemy < 4.0 based project that uses the ferret based full text search, please run this handy generator:
 
 ```shell
 $ bin/rails g alchemy:pg_search:upgrade
