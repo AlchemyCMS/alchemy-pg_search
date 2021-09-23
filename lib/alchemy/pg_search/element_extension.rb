@@ -1,5 +1,5 @@
 Alchemy::Element.class_eval do
-  include PgSearch
+  include PgSearch::Model
 
   pg_search_scope :full_text_search,
     associated_against: {

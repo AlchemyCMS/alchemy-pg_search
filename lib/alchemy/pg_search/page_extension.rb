@@ -1,5 +1,5 @@
 Alchemy::Page.class_eval do
-  include PgSearch
+  include PgSearch::Model
 
   # Enable Postgresql full text indexing.
   #
