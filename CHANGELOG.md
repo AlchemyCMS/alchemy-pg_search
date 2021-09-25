@@ -1,3 +1,8 @@
+## 2.1.0 (2021-09-25)
+
+- Do not allow Alchemy 4.3 and above [#22](https://github.com/AlchemyCMS/alchemy-pg_search/pull/22) by [tvdeyen](https://github.com/tvdeyen)
+- Add Rails 5.1 support [#19](https://github.com/AlchemyCMS/alchemy-pg_search/pull/19) by [tvdeyen](https://github.com/tvdeyen)
+
 ## 2.0.0 (2021-09-23)
 
 - Move searchable attribute to contents table [#20](https://github.com/AlchemyCMS/alchemy-pg_search/pull/20) by [tvdeyen](https://github.com/tvdeyen)
