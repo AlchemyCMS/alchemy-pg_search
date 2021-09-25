@@ -4,7 +4,7 @@ RSpec.describe Alchemy::Content do
   let(:element) { build(:alchemy_element, name: "foo") }
 
   let(:content) do
-    described_class.build(element, definition)
+    described_class.new(definition.merge(element: element))
   end
 
   let(:definition) do
@@ -57,7 +57,7 @@ RSpec.describe Alchemy::Content do
     let(:element) { create(:alchemy_element, name: "foo") }
 
     let(:content) do
-      described_class.create_from_scratch(element, definition)
+      described_class.create(definition.merge(element: element))
     end
 
     let(:definition) do

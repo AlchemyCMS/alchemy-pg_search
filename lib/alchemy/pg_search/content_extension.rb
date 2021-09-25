@@ -1,7 +1,8 @@
 module Alchemy::PgSearch::ContentExtension
   module ClassMethods
-    def build(element, essence_hash)
-      definition = content_definition(element, essence_hash)
+    def new(attributes)
+      element = attributes[:element]
+      definition = element.content_definition_for(attributes[:name])
       super.tap do |content|
         content.searchable = definition.key?(:searchable) ? definition[:searchable] : true
       end

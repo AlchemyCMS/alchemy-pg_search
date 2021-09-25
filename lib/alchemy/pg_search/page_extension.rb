@@ -1,58 +1,54 @@
-Alchemy::Page.class_eval do
-  include PgSearch::Model
+# Enable Postgresql full text indexing.
+#
+module Alchemy::PgSearch::PageExtension
+  def self.extended(base)
+    base.include InstanceMethods
+    base.include PgSearch::Model
 
-  # Enable Postgresql full text indexing.
-  #
-  pg_search_scope :full_text_search,
-    against: {
-      meta_description: "B",
-      meta_keywords: "B",
-      title: "B",
-      name: "A",
-    },
-    associated_against: {
-      searchable_essence_texts: :body,
-      searchable_essence_richtexts: :stripped_body,
-      searchable_essence_pictures: :caption,
-    },
-    using: {
-      tsearch: { prefix: true },
-    }
+    base.pg_search_scope(
+      :full_text_search,
+      against: {
+        meta_description: "B",
+        meta_keywords: "B",
+        title: "B",
+        name: "A",
+      },
+      associated_against: {
+        searchable_essence_texts: :body,
+        searchable_essence_richtexts: :stripped_body,
+        searchable_essence_pictures: :caption,
+      },
+      using: {
+        tsearch: { prefix: true },
+      },
+    )
 
-  has_many :searchable_essence_texts,
-    -> {
-      includes(:element)
-        .where(alchemy_contents: { searchable: true })
-        .where(alchemy_elements: { public: true })
-    },
-    class_name: "Alchemy::EssenceText",
-    source_type: "Alchemy::EssenceText",
-    through: :descendent_contents,
-    source: :essence
+    base.has_many(
+      :searchable_contents,
+      -> {
+        where(alchemy_elements: { public: true })
+          .where(searchable: true)
+      },
+      class_name: "Alchemy::Content",
+      through: :all_elements,
+    )
 
-  has_many :searchable_essence_richtexts,
-    -> {
-      includes(:element)
-        .where(alchemy_contents: { searchable: true })
-        .where(alchemy_elements: { public: true })
-    },
-    class_name: "Alchemy::EssenceRichtext",
-    source_type: "Alchemy::EssenceRichtext",
-    through: :descendent_contents,
-    source: :essence
-
-  has_many :searchable_essence_pictures,
-    -> {
-      includes(:element)
-        .where(alchemy_contents: { searchable: true })
-        .where(alchemy_elements: { public: true })
-    },
-    class_name: "Alchemy::EssencePicture",
-    source_type: "Alchemy::EssencePicture",
-    through: :descendent_contents,
-    source: :essence
-
-  def element_search_results(query)
-    descendent_elements.full_text_search(query)
+    Alchemy::PgSearch::SEARCHABLE_ESSENCES.each do |klass|
+      base.has_many(
+        :"searchable_#{klass.underscore.pluralize}",
+        class_name: "Alchemy::#{klass}",
+        source_type: "Alchemy::#{klass}",
+        through: :searchable_contents,
+        source: :essence,
+      )
+    end
   end
+
+  module InstanceMethods
+    def element_search_results(query)
+      all_elements.full_text_search(query)
+    end
+  end
+
+  Alchemy::Page.extend self
 end
