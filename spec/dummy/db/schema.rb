@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210923092559) do
+ActiveRecord::Schema.define(version: 20210925194026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 20210923092559) do
     t.integer "updater_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "cached_tag_list"
     t.string "file_uid"
     t.index ["file_uid"], name: "index_alchemy_attachments_on_file_uid"
   end
@@ -64,9 +63,10 @@ ActiveRecord::Schema.define(version: 20210923092559) do
     t.integer "creator_id"
     t.integer "updater_id"
     t.integer "cell_id"
-    t.text "cached_tag_list"
     t.integer "parent_element_id"
+    t.boolean "fixed", default: false, null: false
     t.index ["cell_id"], name: "index_alchemy_elements_on_cell_id"
+    t.index ["fixed"], name: "index_alchemy_elements_on_fixed"
     t.index ["page_id", "parent_element_id"], name: "index_alchemy_elements_on_page_id_and_parent_element_id"
     t.index ["page_id", "position"], name: "index_elements_on_page_id_and_position"
   end
@@ -236,7 +236,6 @@ ActiveRecord::Schema.define(version: 20210923092559) do
     t.integer "creator_id"
     t.integer "updater_id"
     t.integer "language_id"
-    t.text "cached_tag_list"
     t.datetime "published_at"
     t.datetime "public_on"
     t.datetime "public_until"
@@ -259,7 +258,6 @@ ActiveRecord::Schema.define(version: 20210923092559) do
     t.integer "creator_id"
     t.integer "updater_id"
     t.string "upload_hash"
-    t.text "cached_tag_list"
     t.string "image_file_uid"
     t.integer "image_file_size"
     t.string "image_file_format"
@@ -277,29 +275,22 @@ ActiveRecord::Schema.define(version: 20210923092559) do
     t.index ["host"], name: "index_alchemy_sites_on_host"
   end
 
-  create_table "taggings", id: :serial, force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "taggable_id"
-    t.string "taggable_type"
-    t.integer "tagger_id"
-    t.string "tagger_type"
-    t.string "context"
-    t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+  create_table "gutentag_taggings", id: :serial, force: :cascade do |t|
+    t.integer "tag_id", null: false
+    t.integer "taggable_id", null: false
+    t.string "taggable_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_id"], name: "index_gutentag_taggings_on_tag_id"
+    t.index ["taggable_type", "taggable_id", "tag_id"], name: "unique_taggings", unique: true
+    t.index ["taggable_type", "taggable_id"], name: "index_gutentag_taggings_on_taggable_type_and_taggable_id"
   end
 
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
+  create_table "gutentag_tags", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
+    t.index ["name"], name: "index_gutentag_tags_on_name", unique: true
+    t.index ["taggings_count"], name: "index_gutentag_tags_on_taggings_count"
   end
 
   add_foreign_key "alchemy_cells", "alchemy_pages", column: "page_id", name: "alchemy_cells_page_id_fkey", on_update: :cascade, on_delete: :cascade
