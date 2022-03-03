@@ -1,3 +1,7 @@
+## [unreleased]
+
+- Support for Alchemy 5.1
+
 ## 2.2.0 (2021-09-25)
 
 - Alchemy 4.3 [#21](https://github.com/AlchemyCMS/alchemy-pg_search/pull/21) by [tvdeyen](https://github.com/tvdeyen)
