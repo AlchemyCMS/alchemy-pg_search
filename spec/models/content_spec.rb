@@ -63,7 +63,7 @@ RSpec.describe Alchemy::Content do
     let(:definition) do
       {
         name: "bar",
-        essence_type: "EssenceText",
+        type: "EssenceText",
         searchable: true,
       }.with_indifferent_access
     end
