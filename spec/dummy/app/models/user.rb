@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class User
+class User < ActiveRecord::Base
   attr_accessor :alchemy_roles, :name
 
   def id
