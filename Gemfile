@@ -9,7 +9,7 @@ end
 gem "sassc-rails"
 gem "sassc", "~> 2.4.0"
 gem "webpacker"
-gem "pg", "< 1.0"
+gem "pg", "~> 1.0"
 gem "puma"
 
 group :test do
