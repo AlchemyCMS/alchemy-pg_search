@@ -11,7 +11,7 @@ RSpec.describe "Fulltext search" do
   end
 
   context "displaying search results" do
-    let!(:public_page) { create(:alchemy_page, :public, visible: true, name: "Page 1") }
+    let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
     let!(:element) { create(:alchemy_element, :with_contents, page: public_page) }
 
     it "displays search results from text essences" do
@@ -135,7 +135,7 @@ RSpec.describe "Fulltext search" do
     end
 
     context "with non public elements" do
-      let!(:public_page) { create(:alchemy_page, :public, visible: true, name: "Page 1") }
+      let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
         create(:alchemy_element, :with_contents, public: false, page: public_page)
@@ -154,7 +154,7 @@ RSpec.describe "Fulltext search" do
     end
 
     context "with public elements" do
-      let!(:public_page) { create(:alchemy_page, :public, visible: true, name: "Page 1") }
+      let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
         create(:alchemy_element, :with_contents, public: true, page: public_page)
@@ -179,7 +179,7 @@ RSpec.describe "Fulltext search" do
         create(
           :alchemy_element,
           :with_contents,
-          page: create(:alchemy_page, :public, visible: true),
+          page: create(:alchemy_page, :public),
         )
       end
     end
