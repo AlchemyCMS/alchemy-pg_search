@@ -1,6 +1,6 @@
-## [unreleased]
+## 2.3.0 (2022-03-04)
 
-- Support for Alchemy 5.1
+- Add support for Alchemy 5.1 [#24](https://github.com/AlchemyCMS/alchemy-pg_search/pull/24) by [kulturbande](https://github.com/kulturbande)
 
 ## 2.2.0 (2021-09-25)
 
