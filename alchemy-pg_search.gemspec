@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^spec/}) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "alchemy_cms", [">= 4.3", "< 5.2"]
+  spec.add_runtime_dependency "alchemy_cms", [">= 4.3", "< 6"]
   spec.add_runtime_dependency "pg_search", ["~> 2.1"]
   spec.add_runtime_dependency "pg"
 
