@@ -3,7 +3,9 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../dummy/config/environment", __FILE__)
 require "rspec/rails"
 require "factory_bot"
-require "alchemy/test_support/factories"
+require "alchemy/test_support"
+FactoryBot.definition_file_paths.append(Alchemy::TestSupport.factories_path)
+FactoryBot.reload
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
