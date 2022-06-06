@@ -8,15 +8,15 @@ Gem::Specification.new do |spec|
   spec.version = Alchemy::PgSearch::VERSION
   spec.authors = ["Thomas von Deyen"]
   spec.email = ["thomas@vondeyen.com"]
-  spec.description = "PostgreSQL search for Alchemy CMS 4.0"
-  spec.summary = "This gem provides PostgreSQL full text search to Alchemy 4.0"
+  spec.description = "PostgreSQL search for Alchemy CMS"
+  spec.summary = "This gem provides PostgreSQL full text search to Alchemy"
   spec.homepage = "https://alchemy-cms.com"
   spec.license = "BSD-3-Clause"
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^spec/}) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "alchemy_cms", [">= 4.3", "< 6"]
+  spec.add_runtime_dependency "alchemy_cms", [">= 5.0", "< 6"]
   spec.add_runtime_dependency "pg_search", ["~> 2.1"]
   spec.add_runtime_dependency "pg"
 
