@@ -4,6 +4,7 @@ test:
   host: localhost
   <% if ENV['CI'] %>
   username: postgres
+  password: password
   <% end %>
   pool: 5
   timeout: 5000
