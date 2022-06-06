@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/AlchemyCMS/alchemy-pg_search.svg?branch=main)](https://travis-ci.com/AlchemyCMS/alchemy-pg_search)
+[![CI](https://github.com/AlchemyCMS/alchemy-pg_search/actions/workflows/ci.yml/badge.svg)](https://github.com/AlchemyCMS/alchemy-pg_search/actions/workflows/ci.yml)
 
 # Alchemy CMS Postgresql Fulltext Search
 
