@@ -1,21 +1,21 @@
 require "spec_helper"
 
 RSpec.describe Alchemy::Page do
-  let(:page) { create(:alchemy_page) }
+  let(:page) { create(:alchemy_page, :public) }
 
   let(:searchable_element) do
-    create(:alchemy_element, :with_contents, page: page, name: "article")
+    create(:alchemy_element, :with_contents, page_version: page.public_version, name: "article")
   end
 
   let(:secret_element) do
-    create(:alchemy_element, :with_contents, page: page, name: "secrets")
+    create(:alchemy_element, :with_contents, page_version: page.public_version, name: "secrets")
   end
 
   describe "searchable_contents" do
     subject { page.searchable_contents }
 
     let(:searchable_element) do
-      create(:alchemy_element, :with_contents, page: page, name: "mixed")
+      create(:alchemy_element, :with_contents, page_version: page.public_version, name: "mixed")
     end
 
     let(:searchable_contents) do
