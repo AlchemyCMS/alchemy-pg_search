@@ -1,12 +1,6 @@
 # == This is the global Alchemy configuration file
 #
 
-# === Require SSL for login form and all admin modules
-#
-# NOTE: You have to create a SSL certificate on your server to make this work
-#
-require_ssl: false
-
 # === Auto Log Out Time
 #
 # The amount of time of inactivity in minutes after which the user is kicked out of his current session.
@@ -14,12 +8,6 @@ require_ssl: false
 # NOTE: This is only active in production environments
 #
 auto_logout_time: 30
-
-# === Redirect Options
-#
-#   redirect_to_public_child  [Boolean]   # Alchemy redirects to the first public child page found, if a page is not visible.
-#
-redirect_to_public_child: true
 
 # === Page caching
 #
@@ -44,37 +32,57 @@ sitemap:
   show_root: true
   show_flag: false
 
-# === URL nesting
-#
-# Since Alchemy 2.6.0, page urls are nested, respectively to their tree position.
-#
-# Disable +url_nesting+ to get slug only urls.
-#
-# NOTE: After changing the url_nesting, you should run one of these convert rake tasks:
-#
-#   rake alchemy:convert:urlnames:to_nested
-#   rake alchemy:convert:urlnames:to_slug
-#
-url_nesting: true
-
 # === Default items per page in admin views
 #
 # In Alchemy's Admin, change how many items you would get shown per page by Kaminari
 items_per_page: 15
 
+# === Preview window URL configuration
+#
+# By default Alchemy uses its internal page preview renderer,
+# but you can configure it to be any URL instead.
+#
+# Basic Auth is supported.
+#
+# preview:
+#   host: https://www.my-static-site.com
+#   auth:
+#     username: <%= ENV["BASIC_AUTH_USERNAME"] %>
+#     password: <%= ENV["BASIC_AUTH_PASSWORD"] %>
+#
+# Preview config per site is supported as well.
+#
+# preview:
+#   My site name:
+#     host: https://www.my-static-site.com
+#     auth:
+#       username: <%= ENV["BASIC_AUTH_USERNAME"] %>
+#       password: <%= ENV["BASIC_AUTH_PASSWORD"] %>
+#
+
 # === Picture rendering settings
 #
-# Alchemy uses Dragonfly to render images. Use {size: "XXXxYYY", crop: BOOLEAN [true]} to resize images.
+# Alchemy uses Dragonfly to render images. Settings for image rendering are specific to elements and are defined in elements.yml
 #
-# See http://markevans.github.com/dragonfly for further infos.
+# Example:
+# - name: some_element
+#   contents:
+#   - name: some_picture
+#     type: EssencePicture
+#     settings:
+#       hint: true
+#       crop: true  # turns on image cropping
+#       size: '500x500' # image will be cropped to this size
 #
-# ==== Options:
+# See http://markevans.github.com/dragonfly for further info.
+#
+# ==== Global Options:
 #
 #   output_image_jpg_quality  [Integer]       # If image gets rendered as JPG this is the quality setting for it. (Default 85)
-#   preprocess_image_resize   [String]        # Use this option to resize images to that value. Downsizing example: '1000x1000>' (Default nil)
+#   preprocess_image_resize   [String]        # Use this option to resize images to the given size when they are uploaded to the image library. Downsizing example: '1000x1000>' (Default nil)
 #   image_output_format       [String]        # The global image output format setting. (Default +original+)
 #
-# NOTE: You can always override the output format in the options of your Essence. I.E. {format: 'gif'}
+# NOTE: You can always override the output format in the settings of your Essence in elements.yml, I.E. {format: 'gif'}
 #
 output_image_jpg_quality: 85
 preprocess_image_resize:
@@ -85,7 +93,7 @@ default_site:
   name: Default Site
   host: '*'
 
-# This is the default language when a new site gets created.
+# This is the default language when seeding.
 default_language:
   code: en
   name: English
@@ -165,6 +173,7 @@ uploader:
     - gif
     - png
     - svg
+    - webp
 
 # === Link Target Options
 #
@@ -178,9 +187,6 @@ uploader:
 #   jQuery(a[data-link-target="overlay"]).dialog();
 #
 link_target_options: [blank]
-
-# Should pages that redirect to an external url open the link in a new tab/window?
-open_external_links_in_new_tab: true
 
 # === Format matchers
 #
