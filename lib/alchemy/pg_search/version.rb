@@ -1,5 +1,5 @@
 module Alchemy
   module PgSearch
-    VERSION = "2.4.0"
+    VERSION = "3.0.0-b1"
   end
 end

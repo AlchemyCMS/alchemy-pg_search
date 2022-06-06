@@ -1,3 +1,7 @@
+## 3.0.0 (unreleased)
+
+- Remove Alchemy 4 support [#27](https://github.com/AlchemyCMS/alchemy-pg_search/pull/27) by [tvdeyen](https://github.com/tvdeyen)
+
 ## 2.4.0 (2022-06-06)
 
 - Add support for Alchemy 5.2 [#25](https://github.com/AlchemyCMS/alchemy-pg_search/pull/25) by [kulturbande](https://github.com/kulturbande)
