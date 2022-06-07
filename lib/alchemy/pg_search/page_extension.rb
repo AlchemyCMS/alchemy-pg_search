@@ -25,10 +25,7 @@ module Alchemy::PgSearch::PageExtension
 
     base.has_many(
       :searchable_contents,
-      -> {
-        where(alchemy_elements: { public: true })
-          .where(searchable: true)
-      },
+      -> { where(searchable: true) },
       class_name: "Alchemy::Content",
       through: :all_elements,
     )

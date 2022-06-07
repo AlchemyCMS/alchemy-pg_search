@@ -12,7 +12,7 @@ RSpec.describe "Fulltext search" do
 
   context "displaying search results" do
     let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
-    let!(:element) { create(:alchemy_element, :with_contents, page: public_page) }
+    let!(:element) { create(:alchemy_element, :with_contents, page_version: public_page.public_version) }
 
     it "displays search results from text essences" do
       visit("/suche?query=search")
@@ -38,7 +38,7 @@ RSpec.describe "Fulltext search" do
 
     context "with unsearchable contents" do
       let!(:secret_element) do
-        create(:alchemy_element, :with_contents, page: public_page, name: "secrets")
+        create(:alchemy_element, :with_contents, page_version: public_page.public_version, name: "secrets")
       end
 
       before do
@@ -54,7 +54,7 @@ RSpec.describe "Fulltext search" do
     end
 
     it "does not display results placed on global pages" do
-      public_page.update!(layoutpage: true)
+      public_page.update!(layoutpage_version: true.public_version)
       visit("/suche?query=search")
       expect(page).to have_css("h2.no_search_results")
     end
@@ -115,7 +115,7 @@ RSpec.describe "Fulltext search" do
         create(
           :alchemy_element,
           :with_contents,
-          page: public_page,
+          page_version: public_page.public_version,
           parent_element: element,
         )
       end
@@ -138,7 +138,7 @@ RSpec.describe "Fulltext search" do
       let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
-        create(:alchemy_element, :with_contents, public: false, page: public_page)
+        create(:alchemy_element, :with_contents, public: false, page_version: public_page.public_version)
       end
 
       before do
@@ -157,7 +157,7 @@ RSpec.describe "Fulltext search" do
       let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
-        create(:alchemy_element, :with_contents, public: true, page: public_page)
+        create(:alchemy_element, :with_contents, public: true, page_version: public_page.public_version)
       end
 
       before do
@@ -179,7 +179,7 @@ RSpec.describe "Fulltext search" do
         create(
           :alchemy_element,
           :with_contents,
-          page: create(:alchemy_page, :public),
+          page_version: create(:alchemy_page, :public).public_version,
         )
       end
     end
