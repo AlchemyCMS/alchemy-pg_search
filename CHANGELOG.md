@@ -1,5 +1,6 @@
-## 3.0.0 (unreleased)
+## 3.0.0 (2022-07-01)
 
+- Changed searchable option initialization [#29](https://github.com/AlchemyCMS/alchemy-pg_search/pull/29) by [kulturbande](https://github.com/kulturbande)
 - Remove Alchemy 4 support [#27](https://github.com/AlchemyCMS/alchemy-pg_search/pull/27) by [tvdeyen](https://github.com/tvdeyen)
 
 ## 2.4.0 (2022-06-06)
