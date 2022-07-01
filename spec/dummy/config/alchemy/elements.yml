@@ -47,3 +47,15 @@
 
 - name: searchresults
   unique: true
+
+- name: content_test
+  contents:
+    - name: without_searchable
+      type: EssenceText
+      default: "This is my public title."
+    - name: with_searchable_enabled
+      type: EssenceText
+      searchable: true
+    - name: with_searchable_disabled
+      type: EssenceText
+      searchable: false

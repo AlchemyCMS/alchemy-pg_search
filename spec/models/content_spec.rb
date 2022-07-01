@@ -1,75 +1,30 @@
 require "spec_helper"
 
 RSpec.describe Alchemy::Content do
-  let(:element) { build(:alchemy_element, name: "foo") }
+  let(:element) { create(:alchemy_element, :with_contents, name: "content_test") }
+  let(:content) { element.content_by_name(content_name) }
+  let(:content_name) { :without_searchable }
 
-  let(:content) do
-    described_class.new(definition.merge(element: element))
-  end
+  context "Without searchable" do
+    let(:content_name) { :without_searchable }
 
-  let(:definition) do
-    {
-      name: "bar",
-      type: essence_type,
-      searchable: searchable,
-    }.with_indifferent_access
-  end
-
-  let(:searchable) { true }
-  let(:essence_type) { "EssenceText" }
-
-  before do
-    expect(element).to receive(:content_definition_for).at_least(:once) do
-      definition
-    end
-  end
-
-  context "with searchable set to true" do
-    let(:searchable) { true }
-
-    it "sets the searchable attribute to true" do
+    it "should be searchable" do
       expect(content.searchable).to be(true)
     end
   end
 
-  context "with searchable set to false" do
-    let(:searchable) { false }
+  context "With searchable enabled" do
+    let(:content_name) { :with_searchable_enabled }
 
-    it "sets the searchable attribute to false" do
-      expect(content.searchable).to be(false)
-    end
-  end
-
-  context "with searchable key missing" do
-    let(:definition) do
-      {
-        name: "bar",
-        type: essence_type,
-      }.with_indifferent_access
-    end
-
-    it "sets the searchable attribute to true" do
+    it "should be searchable" do
       expect(content.searchable).to be(true)
     end
   end
 
-  describe ".after_update" do
-    let(:element) { create(:alchemy_element, name: "foo") }
+  context "With searchable disabled" do
+    let(:content_name) { :with_searchable_disabled }
 
-    let(:content) do
-      described_class.create(definition.merge(element: element))
-    end
-
-    let(:definition) do
-      {
-        name: "bar",
-        type: "EssenceText",
-        searchable: true,
-      }.with_indifferent_access
-    end
-
-    it "updates the value for `searchable`" do
-      content.update!(searchable: false)
+    it "should be not searchable" do
       expect(content.searchable).to be(false)
     end
   end
