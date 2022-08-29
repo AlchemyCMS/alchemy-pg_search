@@ -7,3 +7,8 @@ spec/dummy/log/*.log
 spec/dummy/db/*.sqlite3*
 spec/dummy/tmp/*
 .ruby-*
+node_modules
+yarn.lock
+
+.idea
+.vscode
