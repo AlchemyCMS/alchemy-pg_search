@@ -2,7 +2,7 @@
 
 # Alchemy CMS Postgresql Fulltext Search
 
-This gem provides full text search for projects using postgresql databases to Alchemy CMS 4.0 and above.
+This gem provides full text search for projects using postgresql databases to Alchemy CMS 6.0 and above.
 
 ## Installation
 
@@ -18,11 +18,10 @@ And then execute:
 $ bundle install
 ```
 
-Add migrations:
+Run install script:
 
 ```shell
-$ bin/rake alchemy_pg_search:install:migrations
-$ bin/rake db:migrate
+$ bin/rails g alchemy:pg_search:install
 ```
 
 ## Usage
