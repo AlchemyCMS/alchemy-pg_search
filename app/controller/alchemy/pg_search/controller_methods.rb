@@ -35,7 +35,7 @@ module Alchemy
       #
       def perform_search
         if self.class == Alchemy::Admin::PagesController && params[:query].blank?
-          params[:query] = 'lorem'
+          params[:query] = "lorem"
         end
         return if params[:query].blank?
         @search_results = search_results
@@ -49,31 +49,24 @@ module Alchemy
       # @return [Array]
       #
       def search_results
-        pages = Alchemy::PgSearch.config[:page_search_scope].pages
-        # Since CanCan cannot (oh the irony) merge +accessible_by+ scope with pg_search scopes,
-        # we need to fake a page object here
-        if can? :show, Alchemy::Page.new(restricted: true, public_on: Date.current)
-          pages.full_text_search(params[:query])
-        else
-          pages.not_restricted.full_text_search(params[:query])
-        end
+        Alchemy::PgSearch.search params[:query], ability: current_ability
       end
 
       # A view helper that loads the search result page.
       #
-      # @return [Alchemy::Page]
+      # @return [Alchemy::Page,nil]
       #
       def search_result_page
         @search_result_page ||= begin
-          page = Page.published.find_by(
-            page_layout: search_result_page_layout['name'],
-            language_id: Language.current.id
-          )
-          if page.nil?
-            logger.warn "\n++++++\nNo published search result page found. Please create one or publish your search result page.\n++++++\n"
+            page = Page.published.find_by(
+              page_layout: search_result_page_layout["name"],
+              language_id: Language.current.id,
+            )
+            if page.nil?
+              logger.warn "\n++++++\nNo published search result page found. Please create one or publish your search result page.\n++++++\n"
+            end
+            page
           end
-          page
-        end
       end
 
       def search_result_page_layout

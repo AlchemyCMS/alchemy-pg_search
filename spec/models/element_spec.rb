@@ -1,55 +1,44 @@
 require "spec_helper"
 
 RSpec.describe Alchemy::Element do
-  let(:element) do
-    create(:alchemy_element, :with_contents, name: "mixed")
+  let(:searchable_element) do
+    page_version = create(:alchemy_page_version, :published)
+    create(:alchemy_element, page_version: page_version)
   end
 
-  describe "searchable_essence_texts" do
-    subject { element.searchable_essence_texts }
-
-    let(:searchable_text) do
-      element.content_by_name(:title).essence
+  describe "searchable?" do
+    describe "public element and public page" do
+      it 'should be searchable' do
+        expect(searchable_element.searchable?).to be(true)
+      end
     end
 
-    let(:not_searchable_text) do
-      element.content_by_name(:password).essence
+    describe "public element and not published page" do
+      let(:element) do
+        create(:alchemy_element)
+      end
+
+      it 'should not be searchable' do
+        expect(element.searchable?).to be(false)
+      end
     end
 
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_text])
-    end
-  end
+    describe "public element and not published page_version" do
+      let(:searchable_element) do
+        page_version = create(:alchemy_page_version)
+        create(:alchemy_element, page_version: page_version)
+      end
 
-  describe "searchable_essence_richtexts" do
-    subject { element.searchable_essence_richtexts }
-
-    let(:searchable_richtext) do
-      element.content_by_name(:public).essence
-    end
-
-    let(:not_searchable_richtext) do
-      element.content_by_name(:confidential).essence
+      it 'should not be searchable' do
+        expect(searchable_element.searchable?).to be(false)
+      end
     end
 
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_richtext])
-    end
-  end
-
-  describe "searchable_essence_pictures" do
-    subject { element.searchable_essence_pictures }
-
-    let(:searchable_picture) do
-      element.content_by_name(:image).essence
-    end
-
-    let(:not_searchable_picture) do
-      element.content_by_name(:secret_image).essence
-    end
-
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_picture])
+    describe "not public element" do
+      it 'should not be searchable' do
+        searchable_element.public = false
+        expect(searchable_element.searchable?).to be(false)
+      end
     end
   end
 end
