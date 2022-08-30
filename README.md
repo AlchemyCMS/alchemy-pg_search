@@ -119,11 +119,18 @@ en:
 
 ## Upgrading
 
-If you are upgrading from an old Alchemy < 4.0 based project that uses the ferret based full text search, please run this handy generator:
+If you are upgrading from v3.0.0 please run the install generator:
 
 ```shell
-$ bin/rails g alchemy:pg_search:upgrade
+$ bin/rails g alchemy:pg_search:install
 $ bin/rake db:migrate
+```
+
+and reindex your database in your Rails console
+
+```rb
+# rails console
+$ Alchemy::PgSearch::Search.rebuild
 ```
 
 ## Contributing
