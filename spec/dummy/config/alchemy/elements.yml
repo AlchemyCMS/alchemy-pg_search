@@ -59,3 +59,14 @@
     - name: with_searchable_disabled
       type: EssenceText
       searchable: false
+
+- name: essence_test
+  contents:
+    - name: essence_text
+      type: EssenceText
+    - name: essence_richtext
+      type: EssenceRichtext
+    - name: essence_picture
+      type: EssencePicture
+  nestable_elements:
+    - article

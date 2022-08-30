@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "rails", "~> 6.0.0"
-ENV.fetch("ALCHEMY_BRANCH", "5.3-stable").tap do |branch|
+ENV.fetch("ALCHEMY_BRANCH", "6.0-stable").tap do |branch|
   gem "alchemy_cms", github: "AlchemyCMS/alchemy_cms", branch: branch
 end
 gem "sassc-rails"

@@ -1,77 +1,51 @@
 require "spec_helper"
 
 RSpec.describe Alchemy::Page do
-  let(:page) { create(:alchemy_page) }
+  let(:page) { create(:alchemy_page, :public) }
 
-  let(:searchable_element) do
-    create(:alchemy_element, :with_contents, page: page, name: "article")
-  end
+  describe "searchable?" do
+    describe "public and not restricted page" do
+      let(:page) { create(:alchemy_page, :public) }
 
-  let(:secret_element) do
-    create(:alchemy_element, :with_contents, page: page, name: "secrets")
-  end
-
-  describe "searchable_contents" do
-    subject { page.searchable_contents }
-
-    let(:searchable_element) do
-      create(:alchemy_element, :with_contents, page: page, name: "mixed")
+      it 'should be searchable' do
+        expect(page.searchable?).to be(true)
+      end
     end
 
-    let(:searchable_contents) do
-      searchable_element.contents.where(name: %w[title public image])
+    describe "not public page" do
+      let(:page) { create(:alchemy_page) }
+
+      it 'should not be searchable' do
+        expect(page.searchable?).to be(false)
+      end
     end
 
-    it "returns searchable contents" do
-      expect(subject).to eq(searchable_contents)
-    end
-  end
+    describe "layout page" do
+      let(:page) { create(:alchemy_page, :public, :layoutpage) }
 
-  describe "searchable_essence_texts" do
-    subject { page.searchable_essence_texts }
-
-    let!(:searchable_text) do
-      searchable_element.content_by_name(:headline).essence
-    end
-
-    let!(:not_searchable_text) do
-      secret_element.content_by_name(:passwords).essence
-    end
-
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_text])
+      it 'should not be searchable' do
+        expect(page.searchable?).to be(false)
+      end
     end
   end
 
-  describe "searchable_essence_richtexts" do
-    subject { page.searchable_essence_richtexts }
-
-    let!(:searchable_richtext) do
-      searchable_element.content_by_name(:text).essence
+  describe "after save" do
+    before do
+      PgSearch::Document.create(page_id: page.id, content: "foo")
     end
 
-    let!(:not_searchable_richtext) do
-      secret_element.content_by_name(:confidential).essence
+    it "should not remove the document, if the page is searchable" do
+      page.save
+      expect(PgSearch::Document.count).to eq(1)
     end
 
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_richtext])
-    end
-  end
+    describe "unpublished page" do
+      let(:page) { create(:alchemy_page) }
 
-  describe "searchable_essence_pictures" do
-    subject { page.searchable_essence_pictures }
-
-    let!(:searchable_picture) do
-      searchable_element.content_by_name(:image).essence
-    end
-
-    let!(:not_searchable_picture) do
-      secret_element.content_by_name(:image).essence
-    end
-
-    it "returns searchable EssenceTexts" do
-      expect(subject).to eq([searchable_picture])
+      it "should remove the document, if the page is not searchable" do
+        page.save
+        expect(PgSearch::Document.count).to eq(0)
+      end
     end
   end
 end
