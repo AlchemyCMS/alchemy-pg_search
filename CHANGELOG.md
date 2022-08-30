@@ -1,3 +1,10 @@
+## 4.0.0 (2022-08-30)
+
+- Introduced new search module [#30](https://github.com/AlchemyCMS/alchemy-pg_search/pull/30) by [kulturbande](https://github.com/kulturbande)
+- Moved all extensions to a separate folder [#30](https://github.com/AlchemyCMS/alchemy-pg_search/pull/30) by [kulturbande](https://github.com/kulturbande)
+- Enable pg_search multisearch [#30](https://github.com/AlchemyCMS/alchemy-pg_search/pull/30) by [kulturbande](https://github.com/kulturbande)
+- Update Dummy App to Alchemy 6 [#30](https://github.com/AlchemyCMS/alchemy-pg_search/pull/30) by [kulturbande](https://github.com/kulturbande)
+
 ## 3.0.0 (2022-07-01)
 
 - Changed searchable option initialization [#29](https://github.com/AlchemyCMS/alchemy-pg_search/pull/29) by [kulturbande](https://github.com/kulturbande)
