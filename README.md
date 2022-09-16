@@ -42,7 +42,21 @@ Pass `searchable: false` to your page layout definitions and Alchemy will not in
     - secret_sauce
 ```
 
-#### Exclude contents from being indexed
+#### Exclude whole elements from the search index
+
+Pass `searchable: false` to your element definitions and Alchemy will not index that particular element.
+
+```yaml
+# elements.yml
+- name: secret_sauce
+  searchable: false
+  ingredients:
+    - name: sauce
+      type: Text
+      default: 'This is my secret sauce.'
+```
+
+#### Exclude single contents from being indexed
 
 Pass `searchable: false` to your content definitions and Alchemy will not index that particular content.
 
