@@ -10,13 +10,14 @@ module Alchemy::PgSearch::PageExtension
         :meta_keywords,
         :name,
       ],
-      additional_attributes: -> (page) { { page_id: page.id } },
-      if: :searchable?
+      additional_attributes: ->(page) { { page_id: page.id } },
+      if: :searchable?,
     )
   end
 
   def searchable?
-    public? && !layoutpage?
+    (definition.key?(:searchable) ? definition[:searchable] : true) &&
+      public? && !layoutpage?
   end
 
   private

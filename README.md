@@ -30,16 +30,30 @@ Every `EssenceText`, `EssenceRichtext` and `EssencePicture` will be indexed unle
 
 ### Disable Indexing
 
-Simply pass `searchable: false` to your content definitions and Alchemy will not index results from that particular content.
+#### Exclude whole pages from the search index
+
+Pass `searchable: false` to your page layout definitions and Alchemy will not index that particular page.
+
+```yaml
+# page_layouts.yml
+- name: secret_page
+  searchable: false
+  elements:
+    - secret_sauce
+```
+
+#### Exclude contents from being indexed
+
+Pass `searchable: false` to your content definitions and Alchemy will not index that particular content.
 
 ```yaml
 # elements.yml
 - name: secrets
   contents:
-  - name: passwords
-    type: EssenceText
-    searchable: false
-    default: 'This is my secret password.'
+    - name: passwords
+      type: EssenceText
+      searchable: false
+      default: 'This is my secret password.'
 ```
   
 ### Configure Behavior
