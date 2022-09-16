@@ -55,6 +55,18 @@ Pass `searchable: false` to your content definitions and Alchemy will not index 
       searchable: false
       default: 'This is my secret password.'
 ```
+
+The same works for `ingredients` as well
+
+```yaml
+# elements.yml
+- name: secrets
+  ingredients:
+    - name: passwords
+      type: Text
+      searchable: false
+      default: 'This is my secret password.'
+```
   
 ### Configure Behavior
          
