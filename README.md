@@ -67,9 +67,9 @@ The same works for `ingredients` as well
       searchable: false
       default: 'This is my secret password.'
 ```
-  
+
 ### Configure Behavior
-         
+
 Configure the gem in an initializer. The default configurations are:
 
 ```ruby
@@ -78,7 +78,7 @@ Alchemy::PgSearch.config = {
 }
 ```
 
-You can also overwrite the default multisearch configuration to use other search strategies. For more information take 
+You can also overwrite the default multisearch configuration to use other search strategies. For more information take
 a look into the [PgSearch Readme](https://github.com/Casecommons/pg_search#configuring-multi-search).
 
 ```ruby
