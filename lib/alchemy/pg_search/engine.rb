@@ -16,6 +16,14 @@ module Alchemy
 
         # reindex the page after it was published
         Alchemy.publish_targets << Alchemy::PgSearch::IndexPageJob
+
+        # configure multiselect to find also partial words
+        # @link https://github.com/Casecommons/pg_search#searching-using-different-search-features
+        ::PgSearch.multisearch_options = {
+          using: {
+            tsearch: { prefix: true }
+          }
+        }
       end
     end
   end

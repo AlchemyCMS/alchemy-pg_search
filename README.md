@@ -41,6 +41,29 @@ Simply pass `searchable: false` to your content definitions and Alchemy will not
     searchable: false
     default: 'This is my secret password.'
 ```
+  
+### Configure Behavior
+         
+Configure the gem in an initializer. The default configurations are:
+
+```ruby
+Alchemy::PgSearch.config = {
+  paginate_per: 10, # amount of results per page
+}
+```
+
+You can also overwrite the default multisearch configuration to use other search strategies. For more information take 
+a look into the [PgSearch Readme](https://github.com/Casecommons/pg_search#configuring-multi-search).
+
+```ruby
+Rails.application.config.after_initialize do
+  ::PgSearch.multisearch_options = {
+    using: {
+      tsearch: { prefix: true }
+    }
+  }
+end
+```
 
 ### Rendering search results.
 
