@@ -7,13 +7,25 @@ describe Alchemy::Ingredient do
   end
 
   Alchemy::PgSearch::SEARCHABLE_INGREDIENTS.each do |ingredient_type|
-    context ingredient_type do
+    describe ingredient_type do
       let(:ingredient) { create(:"alchemy_ingredient_#{ingredient_type.downcase}", value: "foo", element: element) }
 
-      context "searchable?" do
+      describe "searchable?" do
+        subject { ingredient.searchable? }
+
         context "element and ingredient are searchable" do
-          it "should be searchable" do
-            expect(ingredient.searchable?).to be(true)
+          it { is_expected.to be(true) }
+
+          context "but configured as not searchable" do
+            before do
+              expect(ingredient).to receive(:definition).at_least(:once) do
+                {
+                  searchable: false,
+                }
+              end
+            end
+
+            it { is_expected.to be(false) }
           end
         end
 
@@ -42,16 +54,34 @@ describe Alchemy::Ingredient do
 
       context "index" do
         let(:document) { PgSearch::Document.first }
-        before do
+
+        subject do
           ingredient
           ::PgSearch::Multisearch.rebuild Alchemy::Ingredient
         end
 
         it "should have one entry" do
-          expect(PgSearch::Document.all.length).to eq(1)
+          subject
+          expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(1)
+        end
+
+        context "configured as not searchable" do
+          before do
+            expect_any_instance_of(ingredient.class).to receive(:definition).at_least(:once) do
+              {
+                searchable: false,
+              }
+            end
+          end
+
+          it "should have no index entry" do
+            subject
+            expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(0)
+          end
         end
 
         it "should be the current ingredient" do
+          subject
           expect(document.searchable).to eq(ingredient)
         end
       end

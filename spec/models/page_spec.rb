@@ -4,28 +4,34 @@ RSpec.describe Alchemy::Page do
   let(:page) { create(:alchemy_page, :public) }
 
   describe "searchable?" do
-    describe "public and not restricted page" do
-      let(:page) { create(:alchemy_page, :public) }
+    subject { page.searchable? }
 
-      it 'should be searchable' do
-        expect(page.searchable?).to be(true)
+    context "public and not restricted page" do
+      it { is_expected.to be(true) }
+
+      context "but configured as not searchable" do
+        before do
+          expect(page).to receive(:definition).at_least(:once) do
+            {
+              searchable: false,
+            }
+          end
+        end
+
+        it { is_expected.to be(false) }
       end
     end
 
-    describe "not public page" do
+    context "not public page" do
       let(:page) { create(:alchemy_page) }
 
-      it 'should not be searchable' do
-        expect(page.searchable?).to be(false)
-      end
+      it { is_expected.to be(false) }
     end
 
-    describe "layout page" do
+    context "layout page" do
       let(:page) { create(:alchemy_page, :public, :layoutpage) }
 
-      it 'should not be searchable' do
-        expect(page.searchable?).to be(false)
-      end
+      it { is_expected.to be(false) }
     end
   end
 
@@ -37,6 +43,21 @@ RSpec.describe Alchemy::Page do
     it "should not remove the document, if the page is searchable" do
       page.save
       expect(PgSearch::Document.count).to eq(1)
+    end
+
+    context "but configured as not searchable" do
+      before do
+        expect(page).to receive(:definition).at_least(:once) do
+          {
+            searchable: false,
+          }
+        end
+      end
+
+      it "should remove the document" do
+        page.save
+        expect(PgSearch::Document.count).to eq(0)
+      end
     end
 
     describe "unpublished page" do

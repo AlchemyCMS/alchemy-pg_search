@@ -1,43 +1,57 @@
 require "spec_helper"
 
 RSpec.describe Alchemy::Element do
-  let(:searchable_element) do
+  let(:element) do
     page_version = create(:alchemy_page_version, :published)
     create(:alchemy_element, page_version: page_version)
   end
 
   describe "searchable?" do
-    describe "public element and public page" do
-      it 'should be searchable' do
-        expect(searchable_element.searchable?).to be(true)
+    subject { element.searchable? }
+
+    context "public element and public page" do
+      it "should be searchable" do
+        is_expected.to be(true)
+      end
+
+      context "but configured as not searchable" do
+        before do
+          expect(element).to receive(:definition).at_least(:once) do
+            {
+              searchable: false,
+            }
+          end
+        end
+
+        it { is_expected.to be(false) }
       end
     end
 
-    describe "public element and not published page" do
+    context "public element and not published page" do
       let(:element) do
         create(:alchemy_element)
       end
 
-      it 'should not be searchable' do
-        expect(element.searchable?).to be(false)
+      it "should not be searchable" do
+        is_expected.to be(false)
       end
     end
 
-    describe "public element and not published page_version" do
-      let(:searchable_element) do
+    context "public element and not published page_version" do
+      let(:element) do
         page_version = create(:alchemy_page_version)
         create(:alchemy_element, page_version: page_version)
       end
 
-      it 'should not be searchable' do
-        expect(searchable_element.searchable?).to be(false)
+      it "should not be searchable" do
+        is_expected.to be(false)
       end
     end
 
-    describe "not public element" do
-      it 'should not be searchable' do
-        searchable_element.public = false
-        expect(searchable_element.searchable?).to be(false)
+    context "not public element" do
+      it "should not be searchable" do
+        element.public = false
+        is_expected.to be(false)
       end
     end
   end
