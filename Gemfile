@@ -18,3 +18,5 @@ group :test do
   gem "pry-byebug"
   gem "launchy"
 end
+
+gem "github_changelog_generator", "~> 1.16"
