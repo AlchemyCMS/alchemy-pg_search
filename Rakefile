@@ -51,7 +51,7 @@ namespace :changelog do
   GitHubChangelogGenerator::RakeTask.new :update do |config|
     config.user = "AlchemyCMS"
     config.project = "alchemy-pg_search"
-    config.since_tag = "v4.0.0"
+    # config.since_tag = "v1.2.0"
     config.future_release = "v#{Alchemy::PgSearch::VERSION}"
   end
 end
