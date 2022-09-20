@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.1.1](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v4.1.1) (2022-09-20)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v4.1.0...v4.1.1)
+
+**Merged pull requests:**
+
+- Fix creating elements that has searchable defined [\#36](https://github.com/AlchemyCMS/alchemy-pg_search/pull/36) ([tvdeyen](https://github.com/tvdeyen))
+
 ## [v4.1.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v4.1.0) (2022-09-19)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v4.0.0...v4.1.0)
