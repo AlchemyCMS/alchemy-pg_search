@@ -6,6 +6,23 @@ RSpec.describe Alchemy::Element do
     create(:alchemy_element, page_version: page_version)
   end
 
+  describe "#searchable" do
+    subject { element.searchable }
+
+    before do
+      expect(Alchemy::Element).to receive(:definition_by_name).at_least(:once) do
+        {
+          name: "foo",
+          searchable: false,
+        }
+      end
+    end
+
+    let(:element) { Alchemy::Element.create!(name: "foo", page_version: create(:alchemy_page_version)) }
+
+    it { is_expected.to be false }
+  end
+
   describe "searchable?" do
     subject { element.searchable? }
 
