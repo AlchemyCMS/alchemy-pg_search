@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.2.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v4.2.0) (2023-01-23)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v4.1.1...v4.2.0)
+
+**Merged pull requests:**
+
+- Update to Alchemy 6.1 [\#38](https://github.com/AlchemyCMS/alchemy-pg_search/pull/38) ([kulturbande](https://github.com/kulturbande))
+- Page searchable toggle [\#37](https://github.com/AlchemyCMS/alchemy-pg_search/pull/37) ([kulturbande](https://github.com/kulturbande))
+
 ## [v4.1.1](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v4.1.1) (2022-09-20)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v4.1.0...v4.1.1)
