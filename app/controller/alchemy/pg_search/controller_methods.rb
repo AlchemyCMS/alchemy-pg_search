@@ -70,11 +70,14 @@ module Alchemy
       end
 
       def search_result_page_layout
-        page_layout = PageLayout.get_all_by_attributes(searchresults: true).first
-        if page_layout.nil?
+        # search for page layout with the attribute `searchresults: true`
+        page_layouts = PageLayout.all.select do |page_layout|
+          page_layout.key?(:searchresults) && page_layout[:searchresults].to_s.casecmp(true.to_s).zero?
+        end
+        if page_layouts.nil?
           raise "No searchresults page layout found. Please add page layout with `searchresults: true` into your `page_layouts.yml` file."
         end
-        page_layout
+        page_layouts.first
       end
 
       def paginate_per
