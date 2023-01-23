@@ -17,6 +17,9 @@ module Alchemy
         # reindex the page after it was published
         Alchemy.publish_targets << Alchemy::PgSearch::IndexPageJob
 
+        # enable searchable flag in page form
+        Alchemy.enable_searchable = true
+
         # configure multiselect to find also partial words
         # @link https://github.com/Casecommons/pg_search#searching-using-different-search-features
         ::PgSearch.multisearch_options = {

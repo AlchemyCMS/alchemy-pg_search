@@ -140,6 +140,28 @@ describe Alchemy::PgSearch::Search do
         end
       end
     end
+
+    context 'page searchable' do
+      let(:searchable) { true }
+      let!(:page) { create(:alchemy_page, :public, name: "Searchable Page", searchable: searchable) }
+      let(:result) { Alchemy::PgSearch::Search.search "searchable" }
+
+      before do
+        Alchemy::PgSearch::Search.rebuild
+      end
+
+      it 'should find one page' do
+        expect(result.length).to eq(1)
+      end
+
+      context 'searchable disabled' do
+        let(:searchable) { false }
+
+        it 'should not find any page' do
+          expect(result.length).to eq(0)
+        end
+      end
+    end
   end
 
   context 'search' do
