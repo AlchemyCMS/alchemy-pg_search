@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_26_125413) do
+ActiveRecord::Schema.define(version: 2023_01_19_143815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 2022_08_26_125413) do
     t.boolean "loop", default: false, null: false
     t.boolean "muted", default: false, null: false
     t.string "preload"
+    t.boolean "playsinline", default: false, null: false
     t.index ["attachment_id"], name: "index_alchemy_essence_videos_on_attachment_id"
   end
 
@@ -300,6 +301,7 @@ ActiveRecord::Schema.define(version: 2022_08_26_125413) do
     t.datetime "legacy_public_on"
     t.datetime "legacy_public_until"
     t.datetime "locked_at"
+    t.boolean "searchable", default: true, null: false
     t.index ["creator_id"], name: "index_alchemy_pages_on_creator_id"
     t.index ["language_id"], name: "index_alchemy_pages_on_language_id"
     t.index ["locked_at", "locked_by"], name: "index_alchemy_pages_on_locked_at_and_locked_by"
@@ -390,7 +392,7 @@ ActiveRecord::Schema.define(version: 2022_08_26_125413) do
   add_foreign_key "alchemy_essence_pages", "alchemy_pages", column: "page_id"
   add_foreign_key "alchemy_ingredients", "alchemy_elements", column: "element_id", on_delete: :cascade
   add_foreign_key "alchemy_nodes", "alchemy_languages", column: "language_id"
-  add_foreign_key "alchemy_nodes", "alchemy_pages", column: "page_id", on_delete: :cascade
+  add_foreign_key "alchemy_nodes", "alchemy_pages", column: "page_id", on_delete: :restrict
   add_foreign_key "alchemy_page_versions", "alchemy_pages", column: "page_id", on_delete: :cascade
   add_foreign_key "alchemy_pages", "alchemy_languages", column: "language_id"
   add_foreign_key "alchemy_picture_thumbs", "alchemy_pictures", column: "picture_id"

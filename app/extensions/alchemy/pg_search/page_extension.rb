@@ -17,7 +17,7 @@ module Alchemy::PgSearch::PageExtension
 
   def searchable?
     (definition.key?(:searchable) ? definition[:searchable] : true) &&
-      public? && !layoutpage?
+      searchable && public? && !layoutpage?
   end
 
   private
