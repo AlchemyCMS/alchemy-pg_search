@@ -70,3 +70,14 @@
       type: EssencePicture
   nestable_elements:
     - article
+
+- name: ingredient_test
+  ingredients:
+    - role: ingredient_text
+      type: Text
+    - role: ingredient_richtext
+      type: Richtext
+    - role: ingredient_picture
+      type: Picture
+  nestable_elements:
+    - article

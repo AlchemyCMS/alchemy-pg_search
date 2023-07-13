@@ -2,17 +2,21 @@ require 'spec_helper'
 
 describe Alchemy::PgSearch::Search do
   let(:page_version) { create(:alchemy_page_version, :published) }
-  let(:element) { create(:alchemy_element, :with_contents, name: "essence_test", public: true, page_version: page_version) }
+  let(:essence_element) { create(:alchemy_element, :with_contents, name: "essence_test", public: true, page_version: page_version) }
+  let(:ingredient_element) { create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version) }
+
   let(:prepared_essences) do
     { :essence_text => :body, :essence_richtext => :body, :essence_picture => :caption }.each do |essence_name, field|
-      essence = element.content_by_name(essence_name).essence
+      essence = essence_element.content_by_name(essence_name).essence
       essence[field] = "foo"
       essence.save
     end
   end
   let(:prepared_ingredients) do
-    Alchemy::PgSearch::SEARCHABLE_INGREDIENTS.each do |ingredient_type|
-      create(:"alchemy_ingredient_#{ingredient_type.downcase}", value: "foo", element: element)
+    { :ingredient_text => :value, :ingredient_richtext => :value, :ingredient_picture => :value }.each do |ingredient_name, field|
+      ingredient = ingredient_element.ingredient_by_role(ingredient_name)
+      ingredient[field] = "foo"
+      ingredient.save
     end
   end
   let(:first_page) { Alchemy::Page.first }
@@ -121,7 +125,7 @@ describe Alchemy::PgSearch::Search do
     end
 
     context 'nested elements' do
-      let(:nested_element) { create(:alchemy_element, :with_contents, name: "article", public: true, page_version: page_version, parent_element: element) }
+      let(:nested_element) { create(:alchemy_element, :with_contents, name: "article", public: true, page_version: page_version, parent_element: essence_element) }
 
       before do
         nested_element

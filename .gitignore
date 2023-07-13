@@ -6,6 +6,8 @@ Gemfile.lock
 spec/dummy/log/*.log
 spec/dummy/db/*.sqlite3*
 spec/dummy/tmp/*
+spec/dummy/public/*
+spec/dummy/uploads/*
 .ruby-*
 node_modules
 yarn.lock
