@@ -125,15 +125,14 @@ describe Alchemy::PgSearch::Search do
     end
 
     context 'nested elements' do
-      let(:nested_element) { create(:alchemy_element, :with_contents, name: "article", public: true, page_version: page_version, parent_element: essence_element) }
+      let!(:nested_element) { create(:alchemy_element, :with_ingredients, name: "article", public: true, page_version: page_version, parent_element: ingredient_element) }
 
       before do
-        nested_element
         Alchemy::PgSearch::Search.index_page second_page
       end
 
-      it 'should have 6 documents' do
-        # 1 Page + 3 previous essences + 3 previous ingredients + 2 new article essences
+      it 'should have 9 documents' do
+        # 1 Page + 3 previous essences + 3 previous ingredients + 2 new article ingredients
         # the picture essence is empty and not in the search index
         expect(PgSearch::Document.count).to be(9)
       end
