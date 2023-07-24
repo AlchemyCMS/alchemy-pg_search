@@ -3,12 +3,10 @@ source "https://rubygems.org"
 gemspec
 
 gem "rails", "~> 7.0.0"
-ENV.fetch("ALCHEMY_BRANCH", "6.1-stable").tap do |branch|
-  gem "alchemy_cms", github: "AlchemyCMS/alchemy_cms", branch: branch
-end
+gem "alchemy_cms", "~> 7.0.0"
+
 gem "sassc-rails"
 gem "sassc", "~> 2.4.0"
-gem "webpacker"
 gem "pg", "~> 1.0"
 gem "puma"
 
