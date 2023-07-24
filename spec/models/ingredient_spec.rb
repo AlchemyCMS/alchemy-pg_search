@@ -65,7 +65,7 @@ RSpec.shared_examples_for "it is in search index" do
 
     context "configured as not searchable" do
       before do
-        expect_any_instance_of(ingredient.class).to receive(:definition).at_least(:once) do
+        allow_any_instance_of(ingredient.class).to receive(:definition).at_least(:once) do
           {
             searchable: false,
           }
@@ -88,7 +88,7 @@ end
 describe Alchemy::Ingredient do
   let(:element) do
     page_version = create(:alchemy_page_version, :published)
-    create(:alchemy_element, :with_contents, name: "ingredient_test", public: true, page_version: page_version)
+    create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version)
   end
 
   let(:content) { "foo bar"}
@@ -102,7 +102,6 @@ describe Alchemy::Ingredient do
 
   describe Alchemy::Ingredients::Richtext do
     let(:ingredient) { create(:alchemy_ingredient_richtext, value: content, element: element) }
-    let(:ingredient_class) { Alchemy::Ingredients::Text }
 
     it_behaves_like "it is searchable"
     it_behaves_like "it is in search index"

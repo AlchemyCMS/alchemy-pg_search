@@ -21,7 +21,7 @@ RSpec.describe "Fulltext search" do
       image.save
     end
 
-    it "displays search results from text essences" do
+    it "displays search results from text ingredients" do
       visit("/suche?query=search")
       within(".search_results") do
         expect(page).to have_content("This is a headline everybody should be able to search for.")

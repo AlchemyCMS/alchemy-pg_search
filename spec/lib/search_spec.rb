@@ -2,16 +2,8 @@ require 'spec_helper'
 
 describe Alchemy::PgSearch::Search do
   let(:page_version) { create(:alchemy_page_version, :published) }
-  let(:essence_element) { create(:alchemy_element, :with_contents, name: "essence_test", public: true, page_version: page_version) }
   let(:ingredient_element) { create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version) }
 
-  let(:prepared_essences) do
-    { :essence_text => :body, :essence_richtext => :body, :essence_picture => :caption }.each do |essence_name, field|
-      essence = essence_element.content_by_name(essence_name).essence
-      essence[field] = "foo"
-      essence.save
-    end
-  end
   let(:prepared_ingredients) do
     { :ingredient_text => :value, :ingredient_richtext => :value, :ingredient_picture => :value }.each do |ingredient_name, field|
       ingredient = ingredient_element.ingredient_by_role(ingredient_name)
@@ -29,20 +21,14 @@ describe Alchemy::PgSearch::Search do
 
     context 'after rebuild' do
       before do
-        prepared_essences
         prepared_ingredients
         Alchemy::PgSearch::Search.rebuild
       end
 
-      it 'should have entries (2 Pages + 3 Essences + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to eq(8)
+      it 'should have entries (2 Pages + 3 Ingredients)' do
+        expect(PgSearch::Document.count).to eq(5)
       end
 
-      ["Alchemy::EssenceText", "Alchemy::EssenceRichtext", "Alchemy::EssencePicture"].each do |model|
-        it "should have a #{model}" do
-          expect(PgSearch::Document.where(searchable_type: model).count).to eq(1)
-        end
-      end
 
       it "should have three ingredients" do
         expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(3)
@@ -52,7 +38,6 @@ describe Alchemy::PgSearch::Search do
 
   context 'remove_page' do
     before do
-      prepared_essences
       prepared_ingredients
       Alchemy::PgSearch::Search.rebuild
     end
@@ -60,8 +45,8 @@ describe Alchemy::PgSearch::Search do
     context 'remove first page' do
       before { Alchemy::PgSearch::Search.remove_page first_page }
 
-      it 'should have only one page and relative essences/ingredients (1 Page + 3 Essences + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to eq(7)
+      it 'should have only one page and relative ingredients (1 Page + 3 Ingredients)' do
+        expect(PgSearch::Document.count).to eq(4)
       end
 
       it 'should have one page entry' do
@@ -85,7 +70,6 @@ describe Alchemy::PgSearch::Search do
   context 'index_page' do
 
     before do
-      prepared_essences
       prepared_ingredients
       PgSearch::Document.destroy_all # clean the whole index
     end
@@ -113,8 +97,8 @@ describe Alchemy::PgSearch::Search do
         Alchemy::PgSearch::Search.index_page second_page
       end
 
-      it 'should have four entries (1 Page + 3 Essences + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to be(7)
+      it 'should have four entries (1 Page + 3 Ingredients)' do
+        expect(PgSearch::Document.count).to be(4)
       end
 
       it 'should be all relate to the same page ' do
@@ -131,10 +115,9 @@ describe Alchemy::PgSearch::Search do
         Alchemy::PgSearch::Search.index_page second_page
       end
 
-      it 'should have 9 documents' do
-        # 1 Page + 3 previous essences + 3 previous ingredients + 2 new article ingredients
-        # the picture essence is empty and not in the search index
-        expect(PgSearch::Document.count).to be(9)
+      it 'should have 6 documents' do
+        # 1 Page + 3 previous ingredients + 2 new article ingredients
+        expect(PgSearch::Document.count).to be(6)
       end
 
       it 'should be all relate to the same page ' do
@@ -172,7 +155,7 @@ describe Alchemy::PgSearch::Search do
     
     before do
       create(:alchemy_page, :restricted, :public, name: "foo")
-      prepared_essences
+      prepared_ingredients
       Alchemy::PgSearch::Search.rebuild
     end
 

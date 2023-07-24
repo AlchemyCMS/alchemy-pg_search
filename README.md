@@ -26,7 +26,7 @@ $ bin/rails g alchemy:pg_search:install
 
 ## Usage
 
-Every `EssenceText`, `EssenceRichtext` and `EssencePicture` will be indexed unless you tell Alchemy to not index a specific content.
+Every `Ingredient` will be indexed unless you tell Alchemy to not index a specific content.
 
 ### Disable Indexing
 
@@ -51,7 +51,7 @@ Pass `searchable: false` to your element definitions and Alchemy will not index 
 - name: secret_sauce
   searchable: false
   ingredients:
-    - name: sauce
+    - role: sauce
       type: Text
       default: 'This is my secret sauce.'
 ```
@@ -63,9 +63,9 @@ Pass `searchable: false` to your content definitions and Alchemy will not index 
 ```yaml
 # elements.yml
 - name: secrets
-  contents:
-    - name: passwords
-      type: EssenceText
+  ingredients:
+    - role: passwords
+      type: Text
       searchable: false
       default: 'This is my secret password.'
 ```
@@ -76,7 +76,7 @@ The same works for `ingredients` as well
 # elements.yml
 - name: secrets
   ingredients:
-    - name: passwords
+    - role: passwords
       type: Text
       searchable: false
       default: 'This is my secret password.'

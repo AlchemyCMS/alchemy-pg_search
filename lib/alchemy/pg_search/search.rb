@@ -5,7 +5,7 @@ module Alchemy
       ##
       # index all supported Alchemy models
       def self.rebuild
-        ([Alchemy::Page, Alchemy::Ingredient] + Alchemy::PgSearch.searchable_essence_classes).each do |model|
+        [Alchemy::Page, Alchemy::Ingredient].each do |model|
           ::PgSearch::Multisearch.rebuild(model)
         end
       end
@@ -19,20 +19,16 @@ module Alchemy
       end
 
       ##
-      # index a single page and indexable essences
+      # index a single page and indexable ingredients
       #
       # @param page [Alchemy::Page]
       def self.index_page(page)
         remove_page page
 
         page.update_pg_search_document
-        page.all_elements.includes(:ingredients, contents: :essence).find_each do |element|
-          element.contents.each do |content|
-            content.essence.update_pg_search_document if Alchemy::PgSearch.is_searchable?(content.essence_type)
-          end
-
-          element.ingredients.each do |ingredient|
-            ingredient.update_pg_search_document if Alchemy::PgSearch.is_searchable?(ingredient.type)
+        page.all_elements.includes(:ingredients).find_each do |element|
+          element.ingredients.select { |i| Alchemy::PgSearch.is_searchable?(i.type) }.each do |ingredient|
+            ingredient.update_pg_search_document
           end
         end
       end

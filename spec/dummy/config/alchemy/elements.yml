@@ -60,17 +60,6 @@
       type: Text
       searchable: false
 
-- name: essence_test
-  contents:
-    - name: essence_text
-      type: EssenceText
-    - name: essence_richtext
-      type: EssenceRichtext
-    - name: essence_picture
-      type: EssencePicture
-  nestable_elements:
-    - article
-
 - name: ingredient_test
   ingredients:
     - role: ingredient_text
