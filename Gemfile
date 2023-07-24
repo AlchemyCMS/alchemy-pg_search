@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rails", "~> 6.0.0"
+gem "rails", "~> 7.0.0"
 ENV.fetch("ALCHEMY_BRANCH", "6.1-stable").tap do |branch|
   gem "alchemy_cms", github: "AlchemyCMS/alchemy_cms", branch: branch
 end

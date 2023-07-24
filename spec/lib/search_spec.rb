@@ -198,7 +198,7 @@ describe Alchemy::PgSearch::Search do
         end
 
         it 'should find only the second page' do
-          expect(result.first.page).to eq(second_page)
+          expect(result.take.page).to eq(second_page)
         end
       end
     end
