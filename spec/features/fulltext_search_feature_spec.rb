@@ -12,9 +12,16 @@ RSpec.describe "Fulltext search" do
 
   context "displaying search results" do
     let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
-    let!(:element) { create(:alchemy_element, :with_contents, page_version: public_page.public_version) }
+    let!(:element) { create(:alchemy_element, :with_ingredients, name: "article", page_version: public_page.public_version) }
+    let(:image_caption) { "This is a caption everybody should be able to search for." }
+    let!(:image) do
+      image = element.ingredient_by_role(:image)
+      image.picture = create(:alchemy_picture)
+      image.caption = image_caption
+      image.save
+    end
 
-    it "displays search results from text essences" do
+    it "displays search results from text ingredients" do
       visit("/suche?query=search")
       within(".search_results") do
         expect(page).to have_content("This is a headline everybody should be able to search for.")
@@ -28,25 +35,21 @@ RSpec.describe "Fulltext search" do
       end
     end
 
-    it "displays search results from picture essences" do
-      element.contents.essence_pictures.first.essence.update!(caption: "This is a caption everybody should be able to search for.")
+    it "displays search results from picture ingredient" do
       visit("/suche?query=caption")
       within(".search_results") do
         expect(page).to have_content("This is a caption everybody should be able to search for.")
       end
     end
 
-    context "with unsearchable contents" do
-      let!(:secret_element) do
-        create(:alchemy_element, :with_contents, page_version: public_page.public_version, name: "secrets")
+    context "with unsearchable ingredients" do
+      let!(:element) do
+        create(:alchemy_element, :with_ingredients, page_version: public_page.public_version, name: "secrets")
       end
-
-      before do
-        secret_element.contents.essence_pictures.first.essence.update!(caption: "This is a secret caption.")
-      end
+      let(:image_caption) { "This is a secret caption." }
 
       it "does not display results from unsearchable contents" do
-        visit("/suche?query=This")
+        visit("/suche?query=secret")
         expect(page).to_not have_content("This is my secret password")
         expect(page).to_not have_content("This is some confidential text")
         expect(page).to_not have_content("This is a secret caption")
@@ -100,7 +103,7 @@ RSpec.describe "Fulltext search" do
       let(:english_language) { create(:alchemy_language, :english) }
       let(:english_language_root) { create(:alchemy_page, :language_root, language: english_language, name: "Home") }
       let(:english_page) { create(:alchemy_page, :public, parent_id: english_language_root.id, language: english_language) }
-      let!(:english_element) { create(:alchemy_element, :with_contents, page: english_page, name: "article") }
+      let!(:english_element) { create(:alchemy_element, :with_ingredients, page: english_page, name: "article") }
 
       before do
         element
@@ -108,7 +111,7 @@ RSpec.describe "Fulltext search" do
       end
 
       it "does not display search results from other languages" do
-        english_element.content_by_name("headline").essence.update!(body: "Joes Hardware")
+        english_element.ingredient_by_role("headline").update!(value: "Joes Hardware")
         visit("/de/suche?query=Hardware")
         expect(page).to have_css("h2.no_search_results")
         expect(page).to_not have_css(".search_result_list")
@@ -119,16 +122,15 @@ RSpec.describe "Fulltext search" do
       let!(:nested_element) do
         create(
           :alchemy_element,
-          :with_contents,
+          :with_ingredients,
+          name: "article",
           page_version: public_page.public_version,
           parent_element: element,
         )
       end
 
       before do
-        nested_element.content_by_name("headline").essence.update!({
-          body: "Content from nested element",
-        })
+        nested_element.ingredient_by_role("headline").update!({ value: "Content from nested element" })
       end
 
       it "displays search results from nested elements" do
@@ -143,12 +145,9 @@ RSpec.describe "Fulltext search" do
       let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
-        create(:alchemy_element, :with_contents, public: false, page_version: public_page.public_version)
+        create(:alchemy_element, :with_ingredients, name: "article", public: false, page_version: public_page.public_version)
       end
-
-      before do
-        element.contents.essence_pictures.first.essence.update!(caption: "This is a secret caption.")
-      end
+      let(:image_caption) { "This is a secret caption." }
 
       it "does not displays search results" do
         visit("/suche?query=caption")
@@ -162,12 +161,9 @@ RSpec.describe "Fulltext search" do
       let!(:public_page) { create(:alchemy_page, :public, name: "Page 1") }
 
       let!(:element) do
-        create(:alchemy_element, :with_contents, public: true, page_version: public_page.public_version)
+        create(:alchemy_element, :with_ingredients, name: "article", public: true, page_version: public_page.public_version)
       end
-
-      before do
-        element.contents.essence_pictures.first.essence.update!(caption: "This is a secret caption.")
-      end
+      let(:image_caption) { "This is a secret caption." }
 
       it "displays search results" do
         visit("/suche?query=caption")
@@ -183,7 +179,8 @@ RSpec.describe "Fulltext search" do
       12.times do
         create(
           :alchemy_element,
-          :with_contents,
+          :with_ingredients,
+          name: "article",
           page_version: create(:alchemy_page, :public).public_version,
         )
       end

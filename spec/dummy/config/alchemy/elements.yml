@@ -1,72 +1,72 @@
 - name: article
-  contents:
-    - name: headline
-      type: EssenceText
+  ingredients:
+    - role: headline
+      type: Text
       default: "This is a headline everybody should be able to search for."
-    - name: text
-      type: EssenceRichtext
+    - role: text
+      type: Richtext
       default: "This is a text block everybody should be able to search for."
-    - name: image
-      type: EssencePicture
+    - role: image
+      type: Picture
 
 - name: secrets
-  contents:
-    - name: passwords
-      type: EssenceText
+  ingredients:
+    - role: passwords
+      type: Text
       searchable: false
       default: "This is my secret password."
-    - name: confidential
-      type: EssenceRichtext
+    - role: confidential
+      type: Richtext
       searchable: false
       default: "This is some confidential text."
-    - name: image
-      type: EssencePicture
+    - role: image
+      type: Picture
       searchable: false
 
 - name: mixed
-  contents:
-    - name: title
-      type: EssenceText
+  ingredients:
+    - role: title
+      type: Text
       default: "This is my public title."
-    - name: password
-      type: EssenceText
+    - role: password
+      type: Text
       default: "This is my secret password."
       searchable: false
-    - name: public
-      type: EssenceRichtext
+    - role: public
+      type: Richtext
       default: "This is some public text."
-    - name: confidential
-      type: EssenceRichtext
+    - role: confidential
+      type: Richtext
       searchable: false
       default: "This is some confidential text."
-    - name: image
-      type: EssencePicture
-    - name: secret_image
-      type: EssencePicture
+    - role: image
+      type: Picture
+    - role: secret_image
+      type: Picture
       searchable: false
 
 - name: searchresults
   unique: true
 
 - name: content_test
-  contents:
-    - name: without_searchable
-      type: EssenceText
+  ingredients:
+    - role: without_searchable
+      type: Text
       default: "This is my public title."
-    - name: with_searchable_enabled
-      type: EssenceText
+    - role: with_searchable_enabled
+      type: Text
       searchable: true
-    - name: with_searchable_disabled
-      type: EssenceText
+    - role: with_searchable_disabled
+      type: Text
       searchable: false
 
-- name: essence_test
-  contents:
-    - name: essence_text
-      type: EssenceText
-    - name: essence_richtext
-      type: EssenceRichtext
-    - name: essence_picture
-      type: EssencePicture
+- name: ingredient_test
+  ingredients:
+    - role: ingredient_text
+      type: Text
+    - role: ingredient_richtext
+      type: Richtext
+    - role: ingredient_picture
+      type: Picture
   nestable_elements:
     - article

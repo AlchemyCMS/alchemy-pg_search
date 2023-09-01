@@ -9,18 +9,11 @@ module Alchemy
     extend Config
 
     ##
-    # is essence or ingredient searchable?
-    # @param essence_type [string]
+    # is ingredient searchable?
+    # @param ingredient_type [string]
     # @return [boolean]
-    def self.is_searchable?(essence_type)
-      SEARCHABLE_INGREDIENTS.include?(essence_type.gsub(/Alchemy::(Essence|Ingredients::)/, ""))
-    end
-
-    ##
-    # generate an array of all supported essences classes
-    # @return [array]
-    def self.searchable_essence_classes
-      SEARCHABLE_INGREDIENTS.map { |k| "Alchemy::Essence#{k.classify}".constantize }
+    def self.is_searchable?(ingredient_type)
+      SEARCHABLE_INGREDIENTS.include?(ingredient_type.gsub(/Alchemy::Ingredients::/, ""))
     end
 
     ##
