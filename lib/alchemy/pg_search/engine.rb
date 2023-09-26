@@ -14,9 +14,11 @@ module Alchemy
         # We need to have the search methods present in all Alchemy controllers
         Alchemy::BaseController.send(:include, Alchemy::PgSearch::ControllerMethods)
 
-        # reindex the page after it was published
-        Alchemy.publish_targets << Alchemy::PgSearch::IndexPageJob
-
+        # In development environment, this runs on every code reload, so avoid multiple reindexing jobs
+        unless Alchemy.publish_targets.map(&:name).include? 'Alchemy::PgSearch::IndexPageJob'
+          # reindex the page after it was published
+          Alchemy.publish_targets << Alchemy::PgSearch::IndexPageJob
+        end
         # enable searchable flag in page form
         Alchemy.enable_searchable = true
 
