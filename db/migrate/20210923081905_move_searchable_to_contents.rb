@@ -1,5 +1,9 @@
-class MoveSearchableToContents < ActiveRecord::Migration[5.0]
+class MoveSearchableToContents < ActiveRecord::Migration[6.1]
   def change
+    if column_exists? :alchemy_contents, :searchable
+      return
+    end
+
     add_column :alchemy_contents, :searchable, :boolean, default: true
 
     {
