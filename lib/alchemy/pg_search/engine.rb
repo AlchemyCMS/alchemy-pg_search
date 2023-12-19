@@ -24,7 +24,11 @@ module Alchemy
         # @link https://github.com/Casecommons/pg_search#searching-using-different-search-features
         ::PgSearch.multisearch_options = {
           using: {
-            tsearch: { prefix: true }
+            tsearch: {
+              prefix: true,
+              dictionary: Alchemy::PgSearch.config.fetch(:dictionary, "simple"),
+              tsvector_column: 'searchable_content'
+            }
           }
         }
       end
