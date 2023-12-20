@@ -4,6 +4,12 @@
 
 This gem provides full text search for projects using postgresql databases to Alchemy CMS 6.0 and above.
 
+## Requirements
+
+* Ruby 3.0 or newer
+* Alchemy CMS 7.0 or newer
+* PostgreSQL 12.x or newer
+
 ## Installation
 
 Add this line to your application's `Gemfile`:
