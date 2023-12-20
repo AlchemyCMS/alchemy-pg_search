@@ -2,6 +2,7 @@ module Alchemy
   module PgSearch
     module Config
       @@config = {
+        dictionary: 'simple',
         paginate_per: 10
       }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_24_074129) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_18_165617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -376,6 +376,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_074129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "page_id"
+    t.virtual "searchable_content", type: :tsvector, as: "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", stored: true
     t.index ["page_id"], name: "index_pg_search_documents_on_page_id"
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end

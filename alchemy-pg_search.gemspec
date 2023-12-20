@@ -12,6 +12,8 @@ Gem::Specification.new do |spec|
   spec.summary = "This gem provides PostgreSQL full text search to Alchemy"
   spec.homepage = "https://alchemy-cms.com"
   spec.license = "BSD-3-Clause"
+  spec.required_ruby_version = ">= 3.0.0"
+  spec.requirements << 'PostgreSQL >= 12.x'
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^spec/}) }
   spec.require_paths = ["lib"]
