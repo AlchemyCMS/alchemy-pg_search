@@ -1,5 +1,14 @@
 # Changelog
 
+## [v5.1.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v5.1.0) (2023-12-20)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.0.0...v5.1.0)
+
+**Merged pull requests:**
+
+- Improve search speed [\#42](https://github.com/AlchemyCMS/alchemy-pg_search/pull/42) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Make migrations more error tolerant [\#41](https://github.com/AlchemyCMS/alchemy-pg_search/pull/41) ([sascha-karnatz](https://github.com/sascha-karnatz))
+
 ## [v5.0.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v5.0.0) (2023-09-01)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v4.2.0...v5.0.0)
