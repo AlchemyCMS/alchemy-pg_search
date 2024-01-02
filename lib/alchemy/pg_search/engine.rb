@@ -19,7 +19,9 @@ module Alchemy
 
         # enable searchable flag in page form
         Alchemy.enable_searchable = true
+      end
 
+      initializer "alchemy.pg_search.config", after: :finisher_hook do
         # configure multiselect to find also partial words
         # @link https://github.com/Casecommons/pg_search#searching-using-different-search-features
         ::PgSearch.multisearch_options = {
