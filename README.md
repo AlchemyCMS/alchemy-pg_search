@@ -99,11 +99,17 @@ The same works for `ingredients` as well
 Configure the gem in an initializer. The default configurations are:
 
 ```ruby
-Alchemy::PgSearch.config = {
-  dictionary: 'simple',
-  paginate_per: 10
-}
+Rails.application.config.before_initialize do
+  Alchemy::PgSearch.config = {
+    dictionary: 'simple',
+    paginate_per: 10
+  }
+end
 ```
+
+> [!NOTE]  
+> Be aware that `before_initialize` is used. Otherwise the configuration will not have an effect, because of the load
+> order in Rails.
 
  Configuration Name | Default Value | Description                                                                                                                                                                                                                                                                                                 
 --------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
