@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1.0"
 gem "alchemy_cms", "~> 7.0.0"
 
 gem "sassc-rails"
