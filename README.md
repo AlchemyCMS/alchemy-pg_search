@@ -159,6 +159,11 @@ place additional elements (maybe a header image or additional text blocks) on th
 # elements.yml
 - name: searchresults
   unique: true
+  ingredients:
+    - role: search_string
+      hint: The is only for presentational purposes in the Alchemy preview
+      default: lorem
+      type: Text
 ```
 
 and then use the view helpers to render the search form on the page layout partial and the search results on the element
