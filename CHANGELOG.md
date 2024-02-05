@@ -1,5 +1,16 @@
 # Changelog
 
+## [v5.2.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v5.2.0) (2024-02-05)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.1.0...v5.2.0)
+
+**Merged pull requests:**
+
+- Allow different search strings in preview [\#46](https://github.com/AlchemyCMS/alchemy-pg_search/pull/46) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Add support for Rails 7.1 [\#45](https://github.com/AlchemyCMS/alchemy-pg_search/pull/45) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Update configuration section in README [\#44](https://github.com/AlchemyCMS/alchemy-pg_search/pull/44) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Avoid duplicating Alchemy.publish\_targets in development environment [\#40](https://github.com/AlchemyCMS/alchemy-pg_search/pull/40) ([dbwinger](https://github.com/dbwinger))
+
 ## [v5.1.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v5.1.0) (2023-12-20)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.0.0...v5.1.0)
