@@ -34,9 +34,7 @@ module Alchemy
       # @see Alchemy::PagesHelper#render_search_form
       #
       def perform_search
-        if self.class == Alchemy::Admin::PagesController && params[:query].blank?
-          params[:query] = "lorem"
-        end
+        set_preview_query
         return if params[:query].blank?
         @search_results = search_results
         if paginate_per
@@ -82,6 +80,16 @@ module Alchemy
 
       def paginate_per
         Alchemy::PgSearch.config[:paginate_per]
+      end
+
+      private
+
+      def set_preview_query
+        if self.class == Alchemy::Admin::PagesController && params[:query].blank?
+          element = search_result_page.draft_version.elements.named(:searchresults).first
+          
+          params[:query] = element&.value_for("search_string") || "lorem"
+        end
       end
     end
   end
