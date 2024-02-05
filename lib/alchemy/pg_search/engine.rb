@@ -12,7 +12,8 @@ module Alchemy
         end
 
         # We need to have the search methods present in all Alchemy controllers
-        Alchemy::BaseController.send(:include, Alchemy::PgSearch::ControllerMethods)
+        Alchemy::PagesController.send(:include, Alchemy::PgSearch::ControllerMethods)
+        Alchemy::Admin::PagesController.send(:include, Alchemy::PgSearch::ControllerMethods)
 
         # reindex the page after it was published
         Alchemy.publish_targets << Alchemy::PgSearch::IndexPageJob
