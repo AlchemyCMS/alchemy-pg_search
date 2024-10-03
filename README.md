@@ -169,6 +169,16 @@ place additional elements (maybe a header image or additional text blocks) on th
 and then use the view helpers to render the search form on the page layout partial and the search results on the element
 view partial.
 
+```erb
+<!-- app/views/alchemy/page_layouts/_search.html.erb -->
+<%= render_elements %>
+
+<!-- app/views/alchemy/elements/_searchresults.html.erb -->
+<%= element_view_for(searchresults) do |el| -%>
+  <%= render_search_results %>
+<%- end -%>
+```
+
 ### View Helpers
 
 This gem provides some helper methods that let you render the form and the search results.
