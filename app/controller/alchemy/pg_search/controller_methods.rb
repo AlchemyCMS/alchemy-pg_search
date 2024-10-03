@@ -86,7 +86,7 @@ module Alchemy
 
       def set_preview_query
         if self.class == Alchemy::Admin::PagesController && params[:query].blank?
-          element = search_result_page.draft_version.elements.named(:searchresults).first
+          element = search_result_page&.draft_version&.elements&.named(:searchresults)&.first
           
           params[:query] = element&.value_for("search_string") || "lorem"
         end
