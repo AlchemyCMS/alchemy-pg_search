@@ -2,7 +2,7 @@
 
 # Alchemy CMS Postgresql Fulltext Search
 
-This gem provides full text search for projects using postgresql databases to Alchemy CMS 6.0 and above.
+This gem provides full text search for projects using postgresql databases to Alchemy CMS 7.0 and above.
 
 ## Requirements
 
