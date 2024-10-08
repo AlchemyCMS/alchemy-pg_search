@@ -235,7 +235,7 @@ and reindex your database in your Rails console
 
 ```rb
 # rails console
-$ Alchemy::PgSearch::Search.rebuild
+$ Alchemy::PgSearch.rebuild
 ```
 
 ## Contributing
