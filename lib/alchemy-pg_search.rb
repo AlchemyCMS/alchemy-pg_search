@@ -2,6 +2,9 @@ require "alchemy/pg_search/engine"
 require "alchemy/pg_search/config"
 
 module Alchemy
+  mattr_accessor :search_class
+  @@search_class = PgSearch
+
   module PgSearch
     SEARCHABLE_INGREDIENTS = %w[Text Richtext Picture]
 
