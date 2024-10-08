@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Alchemy::PgSearch::Search do
+describe Alchemy::PgSearch do
   let(:page_version) { create(:alchemy_page_version, :published) }
   let(:ingredient_element) { create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version) }
 
@@ -22,7 +22,7 @@ describe Alchemy::PgSearch::Search do
     context 'after rebuild' do
       before do
         prepared_ingredients
-        Alchemy::PgSearch::Search.rebuild
+        Alchemy::PgSearch.rebuild
       end
 
       it 'should have entries (2 Pages + 3 Ingredients)' do
@@ -39,11 +39,11 @@ describe Alchemy::PgSearch::Search do
   context 'remove_page' do
     before do
       prepared_ingredients
-      Alchemy::PgSearch::Search.rebuild
+      Alchemy::PgSearch.rebuild
     end
 
     context 'remove first page' do
-      before { Alchemy::PgSearch::Search.remove_page first_page }
+      before { Alchemy::PgSearch.remove_page first_page }
 
       it 'should have only one page and relative ingredients (1 Page + 3 Ingredients)' do
         expect(PgSearch::Document.count).to eq(4)
@@ -55,7 +55,7 @@ describe Alchemy::PgSearch::Search do
     end
 
     context 'remove second page' do
-      before { Alchemy::PgSearch::Search.remove_page second_page }
+      before { Alchemy::PgSearch.remove_page second_page }
 
       it 'should have only one page (1 Page)' do
         expect(PgSearch::Document.count).to eq(1)
@@ -80,7 +80,7 @@ describe Alchemy::PgSearch::Search do
 
     context 'first_page' do
       before do
-        Alchemy::PgSearch::Search.index_page first_page
+        Alchemy::PgSearch.index_page first_page
       end
 
       it 'should have only one entry' do
@@ -94,7 +94,7 @@ describe Alchemy::PgSearch::Search do
 
     context 'second_page' do
       before do
-        Alchemy::PgSearch::Search.index_page second_page
+        Alchemy::PgSearch.index_page second_page
       end
 
       it 'should have four entries (1 Page + 3 Ingredients)' do
@@ -112,7 +112,7 @@ describe Alchemy::PgSearch::Search do
       let!(:nested_element) { create(:alchemy_element, :with_ingredients, name: "article", public: true, page_version: page_version, parent_element: ingredient_element) }
 
       before do
-        Alchemy::PgSearch::Search.index_page second_page
+        Alchemy::PgSearch.index_page second_page
       end
 
       it 'should have 6 documents' do
@@ -130,10 +130,10 @@ describe Alchemy::PgSearch::Search do
     context 'page searchable' do
       let(:searchable) { true }
       let!(:page) { create(:alchemy_page, :public, name: "Searchable Page", searchable: searchable) }
-      let(:result) { Alchemy::PgSearch::Search.search "searchable" }
+      let(:result) { Alchemy::PgSearch.search "searchable" }
 
       before do
-        Alchemy::PgSearch::Search.rebuild
+        Alchemy::PgSearch.rebuild
       end
 
       it 'should find one page' do
@@ -151,12 +151,12 @@ describe Alchemy::PgSearch::Search do
   end
 
   context 'search' do
-    let(:result) { Alchemy::PgSearch::Search.search "foo" }
+    let(:result) { Alchemy::PgSearch.search "foo" }
     
     before do
       create(:alchemy_page, :restricted, :public, name: "foo")
       prepared_ingredients
-      Alchemy::PgSearch::Search.rebuild
+      Alchemy::PgSearch.rebuild
     end
 
     it 'should find two pages' do
@@ -165,7 +165,7 @@ describe Alchemy::PgSearch::Search do
 
     context 'ability' do
       let(:user) { User.create(alchemy_roles: ["member"]) }
-      let(:result) { Alchemy::PgSearch::Search.search "foo", ability: Alchemy::Permissions.new(user) }
+      let(:result) { Alchemy::PgSearch.search "foo", ability: Alchemy::Permissions.new(user) }
 
       context 'with a logged in user' do
         it 'should find two pages' do

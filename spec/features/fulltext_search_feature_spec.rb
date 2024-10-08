@@ -59,7 +59,7 @@ RSpec.describe "Fulltext search" do
     it "does not display results placed on global pages" do
       # A layout page is configured and the page is indexed after publish
       public_page.update!(layoutpage: true)
-      Alchemy::PgSearch::Search.index_page public_page
+      Alchemy::PgSearch.index_page public_page
 
       visit("/suche?query=search")
       expect(page).to have_css("h2.no_search_results")

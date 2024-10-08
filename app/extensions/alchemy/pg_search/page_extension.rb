@@ -23,7 +23,7 @@ module Alchemy::PgSearch::PageExtension
   private
 
   def remove_unpublished_page
-    Alchemy::PgSearch::Search.remove_page(self) unless searchable?
+    Alchemy::PgSearch.remove_page(self) unless searchable?
   end
 end
 
