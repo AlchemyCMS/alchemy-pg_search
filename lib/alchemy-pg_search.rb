@@ -19,7 +19,7 @@ module Alchemy
     # index all supported Alchemy models
     def self.rebuild
       [Alchemy::Page, Alchemy::Ingredient].each do |model|
-        ::PgSearch::Multisearch.rebuild(model)
+        ::PgSearch::Multisearch.rebuild(model, transactional: false)
       end
     end
 
