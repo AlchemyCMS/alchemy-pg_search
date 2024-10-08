@@ -47,7 +47,7 @@ module Alchemy
       # @return [Array]
       #
       def search_results
-        Alchemy::PgSearch.search params[:query], ability: current_ability
+        Alchemy.search_class.search params[:query], ability: current_ability
       end
 
       # A view helper that loads the search result page.
