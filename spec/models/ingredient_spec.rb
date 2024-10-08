@@ -101,7 +101,7 @@ describe Alchemy::Ingredient do
   end
 
   describe Alchemy::Ingredients::Richtext do
-    let(:ingredient) { create(:alchemy_ingredient_richtext, value: content, element: element) }
+    let(:ingredient) { create(:alchemy_ingredient_richtext, value: "<b>foo</b> bar", element: element) }
 
     it_behaves_like "it is searchable"
     it_behaves_like "it is in search index"
