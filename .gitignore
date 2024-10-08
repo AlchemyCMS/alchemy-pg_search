@@ -7,6 +7,7 @@ spec/dummy/log/*.log
 spec/dummy/db/*.sqlite3*
 spec/dummy/tmp/*
 spec/dummy/public/*
+spec/dummy/db/migrate/*
 spec/dummy/uploads/*
 .ruby-*
 node_modules
