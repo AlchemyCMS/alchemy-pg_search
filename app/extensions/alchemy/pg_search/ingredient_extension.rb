@@ -25,5 +25,6 @@ end
 # add the PgSearch model to all ingredients
 Alchemy::Ingredient.prepend(Alchemy::PgSearch::IngredientExtension)
 
-# only enable the search for Text, Richtext, and Picture
+# add custom content fields for Richtext, and Picture
 Alchemy::Ingredients::Picture.multisearchable(Alchemy::PgSearch::IngredientExtension.multisearch_config.merge({against: [:caption]}))
+Alchemy::Ingredients::Richtext.multisearchable(Alchemy::PgSearch::IngredientExtension.multisearch_config.merge({against: [:stripped_body]}))
