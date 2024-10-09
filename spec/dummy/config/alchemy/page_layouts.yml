@@ -6,6 +6,12 @@
   - article
   - secrets
 
+- name: mixed
+  elements:
+    - mixed
+  autogenerate:
+    - mixed
+
 - name: search
   searchresults: true
   unique: true
