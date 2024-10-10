@@ -66,6 +66,13 @@ describe Alchemy::Ingredient do
     it_behaves_like "a searchable content"
   end
 
+  describe Alchemy::Ingredients::Headline do
+    let(:ingredient) { create(:alchemy_ingredient_headline, value: "foo bar", element: element) }
+
+    it_behaves_like "it is searchable", field: :value
+    it_behaves_like "a searchable content"
+  end
+
   describe Alchemy::Ingredients::Richtext do
     let(:ingredient) { create(:alchemy_ingredient_richtext, value: "<b>foo</b> bar", element: element) }
 

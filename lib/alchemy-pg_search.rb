@@ -8,6 +8,7 @@ module Alchemy
   mattr_accessor :searchable_ingredients
   @@searchable_ingredients = {
     "Alchemy::Ingredients::Text": :value,
+    "Alchemy::Ingredients::Headline": :value,
     "Alchemy::Ingredients::Richtext": :stripped_body,
     "Alchemy::Ingredients::Picture": :caption,
   }
