@@ -1,1 +1,4 @@
-<%= render_search_results %>
+<%= element_view_for(searchresults) do |el| -%>
+  <% @search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
+  <%= render_search_results %>
+<% end %>

@@ -29,7 +29,8 @@ module Alchemy
           class: "fulltext_search",
           id: "search",
         }
-        render "alchemy/search/form", options: default_options.merge(options), search_result_page: search_result_page
+        search_result_page = Alchemy::Search::SearchPage.search_result_page
+        render "alchemy/search/form", options: default_options.merge(options), search_result_page:
       end
 
       # Renders the search results partial within +app/views/alchemy/search/_results.html+
