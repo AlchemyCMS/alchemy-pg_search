@@ -1,2 +1,3 @@
+<% @search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
 <%= render_search_form %>
-<%= render_elements %>
+<%= render_search_results %>

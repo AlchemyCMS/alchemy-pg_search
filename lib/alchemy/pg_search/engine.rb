@@ -11,10 +11,6 @@ module Alchemy
           require_dependency(c)
         end
 
-        # We need to have the search methods present in all Alchemy controllers
-        Alchemy::PagesController.send(:include, Alchemy::PgSearch::ControllerMethods)
-        Alchemy::Admin::PagesController.send(:include, Alchemy::PgSearch::ControllerMethods)
-
         # In development environment, this runs on every code reload, so avoid multiple reindexing jobs
         unless Alchemy.publish_targets.map(&:name).include? 'Alchemy::PgSearch::IndexPageJob'
           # reindex the page after it was published

@@ -9,7 +9,3 @@
 - name: search
   searchresults: true
   unique: true
-  elements:
-  - searchresults
-  autogenerate:
-  - searchresults

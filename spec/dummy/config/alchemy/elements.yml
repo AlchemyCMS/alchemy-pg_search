@@ -45,9 +45,6 @@
       type: Picture
       searchable: false
 
-- name: searchresults
-  unique: true
-
 - name: content_test
   ingredients:
     - role: without_searchable

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe "Fulltext search" do
   let!(:search_page) do
-    create(:alchemy_page, :public, name: "Suche", page_layout: "search", autogenerate_elements: true)
+    create(:alchemy_page, :public, name: "Suche", page_layout: "search")
   end
 
   it "form has correct path in the form tag" do
