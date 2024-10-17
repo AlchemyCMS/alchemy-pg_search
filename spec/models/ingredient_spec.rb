@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.shared_examples_for "it is searchable" do
+RSpec.shared_examples_for "it is searchable" do |attribute|
   describe "searchable?" do
     subject { ingredient.searchable? }
 
@@ -17,13 +17,6 @@ RSpec.shared_examples_for "it is searchable" do
         end
 
         it { is_expected.to be(false) }
-      end
-    end
-
-    context "ingredient has no content" do
-      it "should be not searchable" do
-        ingredient.value = nil
-        expect(ingredient.searchable?).to be(false)
       end
     end
 
@@ -44,43 +37,16 @@ RSpec.shared_examples_for "it is searchable" do
   end
 end
 
-RSpec.shared_examples_for "it is in search index" do
-  describe "search index" do
-    let(:document) { PgSearch::Document.first }
+RSpec.shared_examples_for "a searchable content" do
+  it "has searchable content" do
+    expect(ingredient.searchable_content).to eq("foo bar")
+  end
 
-    subject do
-      ingredient
-      ::PgSearch::Multisearch.rebuild described_class
-    end
+  context "whitespaces" do
+    let(:content) { "   foo\n bar   "}
 
-    it "should have one entry" do
-      subject
-      expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(1)
-    end
-
-    it "should have the content" do
-      subject
-      expect(PgSearch::Document.first.content).to eq(content)
-    end
-
-    context "configured as not searchable" do
-      before do
-        allow_any_instance_of(ingredient.class).to receive(:definition).at_least(:once) do
-          {
-            searchable: false,
-          }
-        end
-      end
-
-      it "should have no index entry" do
-        subject
-        expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(0)
-      end
-    end
-
-    it "should be the current ingredient" do
-      subject
-      expect(document.searchable).to eq(ingredient)
+    it "has removed unnecessary whitespaces" do
+      expect(ingredient.searchable_content).to eq("foo bar")
     end
   end
 end
@@ -91,26 +57,33 @@ describe Alchemy::Ingredient do
     create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version)
   end
 
-  let(:content) { "foo bar"}
+  let(:content) { "foo bar" }
 
   describe Alchemy::Ingredients::Text do
     let(:ingredient) { create(:alchemy_ingredient_text, value: content, element: element) }
 
-    it_behaves_like "it is searchable"
-    it_behaves_like "it is in search index"
+    it_behaves_like "it is searchable", field: :value
+    it_behaves_like "a searchable content"
+  end
+
+  describe Alchemy::Ingredients::Headline do
+    let(:ingredient) { create(:alchemy_ingredient_headline, value: "foo bar", element: element) }
+
+    it_behaves_like "it is searchable", field: :value
+    it_behaves_like "a searchable content"
   end
 
   describe Alchemy::Ingredients::Richtext do
     let(:ingredient) { create(:alchemy_ingredient_richtext, value: "<b>foo</b> bar", element: element) }
 
-    it_behaves_like "it is searchable"
-    it_behaves_like "it is in search index"
+    it_behaves_like "it is searchable", field: :stripped_body
+    it_behaves_like "a searchable content"
   end
 
   describe Alchemy::Ingredients::Picture do
     let(:ingredient) { create(:alchemy_ingredient_picture, value: create(:alchemy_picture), caption: content, element: element) }
 
-    it_behaves_like "it is searchable"
-    it_behaves_like "it is in search index"
+    it_behaves_like "it is searchable", field: :caption
+    it_behaves_like "a searchable content"
   end
 end

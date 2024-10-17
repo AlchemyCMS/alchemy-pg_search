@@ -34,11 +34,11 @@
       searchable: false
     - role: public
       type: Richtext
-      default: "This is some public text."
+      default: "This is some <i>public</i> richtext."
     - role: confidential
       type: Richtext
       searchable: false
-      default: "This is some confidential text."
+      default: "This is some <i>confidential</i> richtext."
     - role: image
       type: Picture
     - role: secret_image

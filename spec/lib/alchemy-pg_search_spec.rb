@@ -1,187 +1,105 @@
 require 'spec_helper'
 
 describe Alchemy::PgSearch do
-  let(:page_version) { create(:alchemy_page_version, :published) }
-  let(:ingredient_element) { create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version) }
+  let!(:first_page) { create(:alchemy_page, :public) }
+  let!(:second_page) { create(:alchemy_page, :public) }
+  
+  describe '#rebuild' do
+    subject { described_class.rebuild }
 
-  let(:prepared_ingredients) do
-    { :ingredient_text => :value, :ingredient_richtext => :value, :ingredient_picture => :value }.each do |ingredient_name, field|
-      ingredient = ingredient_element.ingredient_by_role(ingredient_name)
-      ingredient[field] = "foo"
-      ingredient.save
-    end
-  end
-  let(:first_page) { Alchemy::Page.first }
-  let(:second_page) { Alchemy::Page.last }
-
-  context 'rebuild' do
-    it 'should have zero indexed documents' do
-      expect(PgSearch::Document.count).to be(0)
+    it 'should have both created pages indexed documents' do
+      expect(PgSearch::Document.count).to be(2)
     end
 
-    context 'after rebuild' do
-      before do
-        prepared_ingredients
-        Alchemy::PgSearch.rebuild
-      end
-
-      it 'should have entries (2 Pages + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to eq(5)
-      end
-
-
-      it "should have three ingredients" do
-        expect(PgSearch::Document.where(searchable_type: "Alchemy::Ingredient").count).to eq(3)
-      end
+    it "has 3 Pages (Root Page + 2 created pages)" do
+      subject
+      expect(PgSearch::Document.count).to be(3)
     end
   end
 
-  context 'remove_page' do
-    before do
-      prepared_ingredients
-      Alchemy::PgSearch.rebuild
-    end
+  describe "#remove_page" do
+    subject { described_class.remove_page(first_page) }
 
-    context 'remove first page' do
-      before { Alchemy::PgSearch.remove_page first_page }
-
-      it 'should have only one page and relative ingredients (1 Page + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to eq(4)
-      end
-
-      it 'should have one page entry' do
-        expect(PgSearch::Document.where(searchable_type: "Alchemy::Page").count).to eq(1)
-      end
-    end
-
-    context 'remove second page' do
-      before { Alchemy::PgSearch.remove_page second_page }
-
-      it 'should have only one page (1 Page)' do
-        expect(PgSearch::Document.count).to eq(1)
-      end
-
-      it 'should have one page entry' do
-        expect(PgSearch::Document.where(searchable_type: "Alchemy::Page").count).to eq(1)
-      end
+    it "should remove the page from search index" do
+      expect { subject }.to change { PgSearch::Document.count }.by(-1)
+      expect(first_page.reload.pg_search_document).to be_nil
     end
   end
 
-  context 'index_page' do
+  describe "#index_page" do
+    let!(:first_page) { create(:alchemy_page, :public, name: "Mixed", page_layout: "mixed", autogenerate_elements: true) }
+    let(:content) { first_page.pg_search_document.content }
 
     before do
-      prepared_ingredients
       PgSearch::Document.destroy_all # clean the whole index
     end
 
-    it 'should have zero indexed documents' do
-      expect(PgSearch::Document.count).to be(0)
+    subject { described_class.index_page(first_page.reload) }
+
+    it "creates a new pg_search document" do
+      expect { subject }.to change { PgSearch::Document.count }.by(1)
     end
 
-    context 'first_page' do
-      before do
-        Alchemy::PgSearch.index_page first_page
-      end
-
-      it 'should have only one entry' do
-        expect(PgSearch::Document.count).to be(1)
-      end
-
-      it 'should be the first page' do
-        expect(PgSearch::Document.first.page_id).to be(first_page.id)
-      end
+    it "has the page title as content" do
+      subject
+      expect(content).to include("Mixed ")
     end
 
-    context 'second_page' do
-      before do
-        Alchemy::PgSearch.index_page second_page
-      end
-
-      it 'should have four entries (1 Page + 3 Ingredients)' do
-        expect(PgSearch::Document.count).to be(4)
-      end
-
-      it 'should be all relate to the same page ' do
-        PgSearch::Document.all.each do |document|
-          expect(document.page_id).to be(second_page.id)
-        end
-      end
+    it "has ingredient as content" do
+      subject
+      expect(content).to include("public title")
     end
 
-    context 'nested elements' do
-      let!(:nested_element) { create(:alchemy_element, :with_ingredients, name: "article", public: true, page_version: page_version, parent_element: ingredient_element) }
-
-      before do
-        Alchemy::PgSearch.index_page second_page
-      end
-
-      it 'should have 6 documents' do
-        # 1 Page + 3 previous ingredients + 2 new article ingredients
-        expect(PgSearch::Document.count).to be(6)
-      end
-
-      it 'should be all relate to the same page ' do
-        PgSearch::Document.all.each do |document|
-          expect(document.page_id).to be(second_page.id)
-        end
-      end
+    it "hasn't not searchable ingredient in content" do
+      subject
+      expect(content).to_not include("secret password")
     end
 
-    context 'page searchable' do
-      let(:searchable) { true }
-      let!(:page) { create(:alchemy_page, :public, name: "Searchable Page", searchable: searchable) }
-      let(:result) { Alchemy::PgSearch.search "searchable" }
+    it "stores stripped content from ingredient" do
+      subject
+      expect(content).to include("public richtext")
+    end
 
-      before do
-        Alchemy::PgSearch.rebuild
-      end
+    it "removes whitespace from content" do
+      subject
+      expect(content).to start_with("Mixed")
+    end
 
-      it 'should find one page' do
-        expect(result.length).to eq(1)
-      end
+    context "hidden page" do
+      let!(:first_page) { create(:alchemy_page) }
 
-      context 'searchable disabled' do
-        let(:searchable) { false }
-
-        it 'should not find any page' do
-          expect(result.length).to eq(0)
-        end
+      it "creates nothing" do
+        expect { subject }.to change { PgSearch::Document.count }.by(0)
       end
     end
   end
 
   context 'search' do
-    let(:result) { Alchemy::PgSearch.search "foo" }
-    
-    before do
-      create(:alchemy_page, :restricted, :public, name: "foo")
-      prepared_ingredients
-      Alchemy::PgSearch.rebuild
-    end
+    let!(:third_page) { create(:alchemy_page, :restricted, :public, name: "Third Page") }
+    let(:ability) { nil }
 
-    it 'should find two pages' do
-      expect(result.length).to eq(2)
+    subject(:result) { Alchemy::PgSearch.search "page", ability: }
+
+    it 'should find three pages' do
+      expect(result.length).to eq(3)
     end
 
     context 'ability' do
       let(:user) { User.create(alchemy_roles: ["member"]) }
-      let(:result) { Alchemy::PgSearch.search "foo", ability: Alchemy::Permissions.new(user) }
+      let(:ability) { Alchemy::Permissions.new(user) }
 
       context 'with a logged in user' do
-        it 'should find two pages' do
-          expect(result.length).to eq(2)
+        it 'should find the restricted page' do
+          expect(result.length).to eq(3)
+          expect(result.last.page).to eq(third_page)
         end
       end
 
       context 'with an unknown user' do
         let(:user) { User.create(alchemy_roles: []) }
 
-        it 'should find one page' do
-          expect(result.length).to eq(1)
-        end
-
-        it 'should find only the second page' do
-          expect(result.take.page).to eq(second_page)
+        it 'should find two pages' do
+          expect(result.length).to eq(2)
         end
       end
     end

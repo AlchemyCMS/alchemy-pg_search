@@ -21,15 +21,19 @@ RSpec.describe "Fulltext search" do
       image.save
     end
 
+    before do
+      Alchemy::PgSearch.rebuild
+    end
+
     it "displays search results from text ingredients" do
-      visit("/suche?query=search")
+      visit("/suche?query=headline")
       within(".search_results") do
         expect(page).to have_content("This is a headline everybody should be able to search for.")
       end
     end
 
-    it "displays search results from richtext essences" do
-      visit("/suche?query=search")
+    it "displays search results from richtext ingredient" do
+      visit("/suche?query=text%20block")
       within(".search_results") do
         expect(page).to have_content("This is a text block everybody should be able to search for.")
       end
@@ -59,7 +63,6 @@ RSpec.describe "Fulltext search" do
     it "does not display results placed on global pages" do
       # A layout page is configured and the page is indexed after publish
       public_page.update!(layoutpage: true)
-      Alchemy::PgSearch.index_page public_page
 
       visit("/suche?query=search")
       expect(page).to have_css("h2.no_search_results")
@@ -131,6 +134,7 @@ RSpec.describe "Fulltext search" do
 
       before do
         nested_element.ingredient_by_role("headline").update!({ value: "Content from nested element" })
+        Alchemy::PgSearch.rebuild
       end
 
       it "displays search results from nested elements" do
@@ -184,6 +188,7 @@ RSpec.describe "Fulltext search" do
           page_version: create(:alchemy_page, :public).public_version,
         )
       end
+      Alchemy::PgSearch.rebuild
     end
 
     context "when default config is used" do

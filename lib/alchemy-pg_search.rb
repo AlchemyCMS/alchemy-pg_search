@@ -5,24 +5,23 @@ module Alchemy
   mattr_accessor :search_class
   @@search_class = PgSearch
 
-  module PgSearch
-    SEARCHABLE_INGREDIENTS = %w[Text Richtext Picture]
+  mattr_accessor :searchable_ingredients
+  @@searchable_ingredients = {
+    "Alchemy::Ingredients::Text": :value,
+    "Alchemy::Ingredients::Headline": :value,
+    "Alchemy::Ingredients::Richtext": :stripped_body,
+    "Alchemy::Ingredients::Picture": :caption,
+  }
 
+  module PgSearch
     extend Config
 
     ##
-    # is ingredient searchable?
-    # @param ingredient_type [string]
-    # @return [boolean]
-    def self.is_searchable?(ingredient_type)
-      SEARCHABLE_INGREDIENTS.include?(ingredient_type.gsub(/Alchemy::Ingredients::/, ""))
-    end
-
-    ##
-    # index all supported Alchemy models
+    # index all supported Alchemy pages
     def self.rebuild
-      [Alchemy::Page, Alchemy::Ingredient].each do |model|
-        ::PgSearch::Multisearch.rebuild(model)
+      ActiveRecord::Base.transaction do
+        ::PgSearch::Document.delete_all
+        Alchemy::Page.all.each{ |page| index_page(page) }
       end
     end
 
@@ -39,14 +38,16 @@ module Alchemy
     #
     # @param page [Alchemy::Page]
     def self.index_page(page)
-      remove_page page
-
       page.update_pg_search_document
-      page.all_elements.includes(:ingredients).find_each do |element|
-        element.ingredients.select { |i| Alchemy::PgSearch.is_searchable?(i.type) }.each do |ingredient|
-          ingredient.update_pg_search_document
-        end
-      end
+
+      document = page.pg_search_document
+      return if document.nil?
+
+      ingredient_content = page.all_elements.includes(ingredients: {element: :page}).map do |element|
+        element.ingredients.select { |i| i.searchable? }.map(&:searchable_content).join(" ")
+      end.join(" ")
+
+      document.update_column(:content, "#{document.content} #{ingredient_content}".squish)
     end
 
     ##
@@ -56,13 +57,17 @@ module Alchemy
     # @param ability [nil|CanCan::Ability]
     # @return [ActiveRecord::Relation]
     def self.search(query, ability: nil)
-      query = ::PgSearch.multisearch(query)
-                        .select("JSON_AGG(content) as content", :page_id)
-                        .reorder("")
-                        .group(:page_id)
-                        .joins(:page)
+      query = ::PgSearch.multisearch(query).includes(:searchable)
 
-      query = query.merge(Alchemy::Page.accessible_by(ability, :read)) if ability
+      if ability
+        # left_joins method is not usable here, because the order of the joins are incorrect
+        # and would result in a SQL error. We can receive the correct query order with these
+        # odd left join string
+        # Ref: https://guides.rubyonrails.org/active_record_querying.html#using-a-string-sql-fragment
+        query = query
+                  .joins("LEFT JOIN alchemy_pages ON alchemy_pages.id = pg_search_documents.page_id")
+                  .merge(Alchemy::Page.accessible_by(ability, :read))
+      end
 
       query
     end

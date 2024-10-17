@@ -1,4 +1,4 @@
-module Alchemy::PgSearch::ElementExtension
+module Alchemy::Search::ElementExtension
   def self.prepended(base)
     base.attr_writer :searchable
   end
@@ -12,4 +12,4 @@ module Alchemy::PgSearch::ElementExtension
   end
 end
 
-Alchemy::Element.prepend(Alchemy::PgSearch::ElementExtension)
+Alchemy::Element.prepend(Alchemy::Search::ElementExtension)
