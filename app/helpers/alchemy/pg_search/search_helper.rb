@@ -29,20 +29,8 @@ module Alchemy
           class: "fulltext_search",
           id: "search",
         }
-        render "alchemy/search/form", options: default_options.merge(options), search_result_page: search_result_page
-      end
-
-      # Renders the search results partial within +app/views/alchemy/search/_results.html+
-      #
-      # @option options show_result_count [Boolean] (true) Should the count of results be displayed or not?
-      # @option options show_heading [Boolean] (true) Should the heading be displayed or not?
-      #
-      def render_search_results(options = {})
-        default_options = {
-          show_result_count: true,
-          show_heading: true,
-        }
-        render "alchemy/search/results", options: default_options.merge(options)
+        search_result_page = Alchemy::Search::SearchPage.search_result_page
+        render "alchemy/search/form", options: default_options.merge(options), search_result_page:
       end
 
       def highlighted_excerpt(text, phrase, radius = 50)

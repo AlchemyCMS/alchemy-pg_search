@@ -135,16 +135,9 @@ In order to render the search results, you'll need a page layout that represents
 page layout as `searchresults: true`. The search form will pick this page as result page.
 
 #### Search Results Page
-
-```yaml
-# page_layouts.yml
-- name: search
-  searchresults: true
-  unique: true
-```
-
-Tip: For maximum flexibility you could also add an element that represents the search results. This lets your editors to
-place additional elements (maybe a header image or additional text blocks) on the search result page.
+                          
+Add a search layout to the `page_layout.yml` and mark it with a `searchresults` flag. These flag is used to find the 
+correct page path for search form.
 
 ```yaml
 # page_layouts.yml
@@ -159,15 +152,9 @@ place additional elements (maybe a header image or additional text blocks) on th
 # elements.yml
 - name: searchresults
   unique: true
-  ingredients:
-    - role: search_string
-      hint: The is only for presentational purposes in the Alchemy preview
-      default: lorem
-      type: Text
 ```
 
-and then use the view helpers to render the search form on the page layout partial and the search results on the element
-view partial.
+and then use the view helpers to render the search form on the page layout partial.
 
 ```erb
 <!-- app/views/alchemy/page_layouts/_search.html.erb -->
@@ -175,8 +162,9 @@ view partial.
 
 <!-- app/views/alchemy/elements/_searchresults.html.erb -->
 <%= element_view_for(searchresults) do |el| -%>
-  <%= render_search_results %>
-<%- end -%>
+  <% search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
+  <%= render "alchemy/search/results", search_results: search_results %>
+<% end %>
 ```
 
 ### View Helpers
@@ -185,9 +173,6 @@ This gem provides some helper methods that let you render the form and the searc
 
 * Render the search form:
   `render_search_form`
-
-* Render the search results:
-  `render_search_results`
 
 ### Customize Views
 
