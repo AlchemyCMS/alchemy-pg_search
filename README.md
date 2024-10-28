@@ -162,8 +162,8 @@ and then use the view helpers to render the search form on the page layout parti
 
 <!-- app/views/alchemy/elements/_searchresults.html.erb -->
 <%= element_view_for(searchresults) do |el| -%>
-  <% @search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
-  <%= render_search_results %>
+  <% search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
+  <%= render "alchemy/search/results", search_results: search_results %>
 <% end %>
 ```
 
@@ -173,9 +173,6 @@ This gem provides some helper methods that let you render the form and the searc
 
 * Render the search form:
   `render_search_form`
-
-* Render the search results:
-  `render_search_results`
 
 ### Customize Views
 

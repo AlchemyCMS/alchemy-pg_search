@@ -1,4 +1,4 @@
 <%= element_view_for(searchresults) do |el| -%>
-  <% @search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
-  <%= render_search_results %>
+  <% search_results = Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
+  <%= render "alchemy/search/results", search_results: search_results %>
 <% end %>
