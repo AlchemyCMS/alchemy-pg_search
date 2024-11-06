@@ -10,7 +10,7 @@ module Alchemy::PgSearch::PageExtension
         :meta_keywords,
         :name,
       ],
-      additional_attributes: ->(page) { { page_id: page.id } },
+      additional_attributes: ->(page) { { page_id: page.id, searchable_created_at: page.published_at } },
       if: :searchable?,
     )
   end
