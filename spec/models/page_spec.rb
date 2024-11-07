@@ -69,4 +69,14 @@ RSpec.describe Alchemy::Page do
       end
     end
   end
+
+  describe "additional_attributes" do
+    it "stores page_id" do
+      expect(page.pg_search_document.page_id).to eq(page.id)
+    end
+
+    it "stores searchable created_at" do
+      expect(page.pg_search_document.searchable_created_at).to eq(page.published_at)
+    end
+  end
 end

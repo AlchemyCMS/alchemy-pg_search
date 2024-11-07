@@ -6,6 +6,12 @@ module Alchemy
       def self.perform_search(params, ability: nil)
         search_results = Alchemy.search_class.search(params[:query], ability:)
         search_results = search_results&.page(params[:page])&.per(paginate_per) if paginate_per.present?
+
+        # order the documents by searchable_created_at and use the ranking order as second order argument
+        if params[:sort] == "date"
+          search_results.order_values.unshift("pg_search_documents.searchable_created_at DESC")
+        end
+
         search_results
       end
 
