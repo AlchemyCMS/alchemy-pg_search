@@ -76,7 +76,7 @@ RSpec.describe Alchemy::Page do
     end
 
     it "stores searchable created_at" do
-      expect(page.pg_search_document.searchable_created_at).to eq(page.published_at)
+      expect(page.pg_search_document.searchable_created_at).to eq(page.public_on)
     end
   end
 end
