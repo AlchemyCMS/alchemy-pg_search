@@ -60,13 +60,8 @@ module Alchemy
       query = ::PgSearch.multisearch(query).includes(:searchable)
 
       if ability
-        # left_joins method is not usable here, because the order of the joins are incorrect
-        # and would result in a SQL error. We can receive the correct query order with these
-        # odd left join string
-        # Ref: https://guides.rubyonrails.org/active_record_querying.html#using-a-string-sql-fragment
-        query = query
-                  .joins("LEFT JOIN alchemy_pages ON alchemy_pages.id = pg_search_documents.page_id")
-                  .merge(Alchemy::Page.accessible_by(ability, :read))
+        inner_ability_select = Alchemy::Page.select(:id).merge(Alchemy::Page.accessible_by(ability, :read))
+        query = query.where("page_id IS NULL OR page_id IN (#{inner_ability_select.to_sql})")
       end
 
       query

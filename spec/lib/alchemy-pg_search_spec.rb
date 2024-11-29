@@ -101,6 +101,16 @@ describe Alchemy::PgSearch do
         it 'should find two pages' do
           expect(result.length).to eq(2)
         end
+
+        context "with other search documents" do
+          let!(:other_search_document) do
+            PgSearch::Document.new(content: "Page").save(validate: false)
+          end
+
+          it 'should find three pages' do
+            expect(result.length).to eq(3)
+          end
+        end
       end
     end
   end
