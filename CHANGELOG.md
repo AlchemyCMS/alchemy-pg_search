@@ -1,5 +1,24 @@
 # Changelog
 
+## [v6.0.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v6.0.0) (2024-12-03)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.2.0...v6.0.0)
+
+**Merged pull requests:**
+
+- Use an inner select for CanCanCan abilities [\#61](https://github.com/AlchemyCMS/alchemy-pg_search/pull/61) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Use public\_on instead of published\_at for pg\_search\_documents [\#60](https://github.com/AlchemyCMS/alchemy-pg_search/pull/60) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Add searchable\_created\_at field [\#59](https://github.com/AlchemyCMS/alchemy-pg_search/pull/59) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Add search page module and remove controller extension [\#58](https://github.com/AlchemyCMS/alchemy-pg_search/pull/58) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Rearrange page search [\#57](https://github.com/AlchemyCMS/alchemy-pg_search/pull/57) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Introduce a search\_class configuration into Alchemy [\#55](https://github.com/AlchemyCMS/alchemy-pg_search/pull/55) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Remove search module [\#54](https://github.com/AlchemyCMS/alchemy-pg_search/pull/54) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Use stripped\_body field for Richtext ingredient [\#51](https://github.com/AlchemyCMS/alchemy-pg_search/pull/51) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Mark page id as optional on pg\_search\_document [\#50](https://github.com/AlchemyCMS/alchemy-pg_search/pull/50) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Remove old migrations [\#49](https://github.com/AlchemyCMS/alchemy-pg_search/pull/49) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Add view partial examples to README [\#48](https://github.com/AlchemyCMS/alchemy-pg_search/pull/48) ([sascha-karnatz](https://github.com/sascha-karnatz))
+- Fix preview if search\_result\_page is nil [\#47](https://github.com/AlchemyCMS/alchemy-pg_search/pull/47) ([sascha-karnatz](https://github.com/sascha-karnatz))
+
 ## [v5.2.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v5.2.0) (2024-02-05)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.1.0...v5.2.0)
