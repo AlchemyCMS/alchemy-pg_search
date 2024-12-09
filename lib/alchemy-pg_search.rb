@@ -17,37 +17,13 @@ module Alchemy
     extend Config
 
     ##
-    # index all supported Alchemy pages
-    def self.rebuild
-      ActiveRecord::Base.transaction do
-        ::PgSearch::Document.delete_all
-        Alchemy::Page.all.each{ |page| index_page(page) }
-      end
-    end
-
-    ##
-    # remove the whole index for the page
-    #
-    # @param page [Alchemy::Page]
-    def self.remove_page(page)
-      ::PgSearch::Document.delete_by(page_id: page.id)
-    end
-
-    ##
-    # index a single page and indexable ingredients
-    #
-    # @param page [Alchemy::Page]
-    def self.index_page(page)
-      page.update_pg_search_document
-
-      document = page.pg_search_document
-      return if document.nil?
-
-      ingredient_content = page.all_elements.includes(ingredients: {element: :page}).map do |element|
-        element.ingredients.select { |i| i.searchable? }.map(&:searchable_content).join(" ")
-      end.join(" ")
-
-      document.update_column(:content, "#{document.content} #{ingredient_content}".squish)
+    # Reindex all supported Alchemy pages
+    def self.rebuild(clean_up: true, transactional: true)
+      ::PgSearch::Multisearch.rebuild(
+        Alchemy::Page,
+        clean_up: clean_up,
+        transactional: transactional
+      )
     end
 
     ##
