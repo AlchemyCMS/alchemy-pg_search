@@ -72,4 +72,29 @@ RSpec.describe Alchemy::Element do
       end
     end
   end
+
+  describe "searchable_content" do
+    let(:element) do
+      page_version = create(:alchemy_page_version, :published)
+      create(:alchemy_element, :with_ingredients, name: "ingredient_test", public: true, page_version: page_version)
+    end
+    let!(:first_ingredient) { create(:alchemy_ingredient_headline, value: "foo bar", element: element) }
+
+    subject { element.searchable_content }
+
+    it "should contain ingredient content" do
+      is_expected.to eq("foo bar")
+    end
+
+    context "ignore not searchable elements" do
+      before do
+        element.public = false
+        element.save
+      end
+
+      it "should not find the unsearchable content" do
+        is_expected.to_not include("foo")
+      end
+    end
+  end
 end

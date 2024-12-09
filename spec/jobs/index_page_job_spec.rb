@@ -7,8 +7,8 @@ RSpec.describe Alchemy::PgSearch::IndexPageJob, type: :job do
 
   let(:page) { create(:alchemy_page, :public) }
 
-  it "calls the index_page - method" do
-    expect(Alchemy::PgSearch).to receive(:index_page).with(page)
+  it "calls the update_pg_search_document - method" do
+    expect(page).to receive(:update_pg_search_document)
     described_class.perform_now(page)
   end
 end

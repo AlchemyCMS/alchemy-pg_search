@@ -7,69 +7,23 @@ describe Alchemy::PgSearch do
   describe '#rebuild' do
     subject { described_class.rebuild }
 
-    it 'should have both created pages indexed documents' do
+    it 'should have created pages indexed documents' do
       expect(PgSearch::Document.count).to be(2)
     end
 
-    it "has 3 Pages (Root Page + 2 created pages)" do
-      subject
-      expect(PgSearch::Document.count).to be(3)
-    end
-  end
-
-  describe "#remove_page" do
-    subject { described_class.remove_page(first_page) }
-
-    it "should remove the page from search index" do
-      expect { subject }.to change { PgSearch::Document.count }.by(-1)
-      expect(first_page.reload.pg_search_document).to be_nil
-    end
-  end
-
-  describe "#index_page" do
-    let!(:first_page) { create(:alchemy_page, :public, name: "Mixed", page_layout: "mixed", autogenerate_elements: true) }
-    let(:content) { first_page.pg_search_document.content }
-
-    before do
-      PgSearch::Document.destroy_all # clean the whole index
-    end
-
-    subject { described_class.index_page(first_page.reload) }
-
-    it "creates a new pg_search document" do
+    it "has an additional page (Root Page + 2 created pages)" do
       expect { subject }.to change { PgSearch::Document.count }.by(1)
     end
 
-    it "has the page title as content" do
-      subject
-      expect(content).to include("Mixed ")
-    end
+    context "with parameter" do
+      it "calls PgSearch::Multisearch.rebuild with clean_up and transactional enabled" do
+        expect(::PgSearch::Multisearch).to receive(:rebuild).with(Alchemy::Page, clean_up: true, transactional: true)
+        subject
+      end
 
-    it "has ingredient as content" do
-      subject
-      expect(content).to include("public title")
-    end
-
-    it "hasn't not searchable ingredient in content" do
-      subject
-      expect(content).to_not include("secret password")
-    end
-
-    it "stores stripped content from ingredient" do
-      subject
-      expect(content).to include("public richtext")
-    end
-
-    it "removes whitespace from content" do
-      subject
-      expect(content).to start_with("Mixed")
-    end
-
-    context "hidden page" do
-      let!(:first_page) { create(:alchemy_page) }
-
-      it "creates nothing" do
-        expect { subject }.to change { PgSearch::Document.count }.by(0)
+      it "calls PgSearch::Multisearch.rebuild with clean_up and transactional disabled" do
+        expect(::PgSearch::Multisearch).to receive(:rebuild).with(Alchemy::Page, clean_up: false, transactional: false)
+        described_class.rebuild(clean_up: false, transactional: false)
       end
     end
   end
