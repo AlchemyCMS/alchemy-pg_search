@@ -2,7 +2,7 @@ module Alchemy
   module PgSearch
     class IndexPageJob < BaseJob
       def perform(page)
-        PgSearch.index_page(page)
+        page.update_pg_search_document
       end
     end
   end

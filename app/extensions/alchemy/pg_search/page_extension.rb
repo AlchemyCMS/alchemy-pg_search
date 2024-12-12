@@ -6,24 +6,18 @@ module Alchemy::PgSearch::PageExtension
     base.after_save :remove_unpublished_page
     base.multisearchable(
       against: [
-        :meta_description,
-        :meta_keywords,
         :name,
+        :searchable_content
       ],
       additional_attributes: ->(page) { { page_id: page.id, searchable_created_at: page.public_on } },
       if: :searchable?,
     )
   end
 
-  def searchable?
-    (definition.key?(:searchable) ? definition[:searchable] : true) &&
-      searchable && public? && !layoutpage?
-  end
-
   private
 
   def remove_unpublished_page
-    Alchemy::PgSearch.remove_page(self) unless searchable?
+    ::PgSearch::Document.delete_by(page_id: id) unless searchable?
   end
 end
 
