@@ -1,5 +1,13 @@
 # Changelog
 
+## [v6.1.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v6.1.0) (2024-12-13)
+
+[Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v6.0.0...v6.1.0)
+
+**Merged pull requests:**
+
+- Use PgSearch::Document.rebuild for page reindex [\#63](https://github.com/AlchemyCMS/alchemy-pg_search/pull/63) ([sascha-karnatz](https://github.com/sascha-karnatz))
+
 ## [v6.0.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v6.0.0) (2024-12-03)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v5.2.0...v6.0.0)
