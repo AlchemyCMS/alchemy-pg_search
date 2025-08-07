@@ -217,7 +217,7 @@ Make sure to use `Alchemy::Search::SearchPage.perform_search(params, ability: cu
 
 ```diff
 -<%= render "alchemy/search/results" %>
-+<%= render "alchemy/search/results", search_results: Alchemy::Search::Page.perform_search(params, ability: current_ability) %>
++<%= render "alchemy/search/results", search_results: Alchemy::Search::SearchPage.perform_search(params, ability: current_ability) %>
 ```
 
 ## 4.0
