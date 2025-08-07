@@ -209,6 +209,19 @@ en:
 
 ## Upgrading
 
+## 6.0
+
+Upgrading to 6.0 makes it necessary to update you search result partials.
+
+Make sure to use `Alchemy::Search::SearchPage.perform_search(params, ability: current_ability)` and pass the `search_results` into `alchemy/search/results` (or whatever partial you are rendering the results) and make sure to use the local `search_results` variable over the `@search_results` instance variable.
+
+```diff
+-<%= render "alchemy/search/results" %>
++<%= render "alchemy/search/results", search_results: Alchemy::Search::Page.perform_search(params, ability: current_ability) %>
+```
+
+## 4.0
+
 If you are upgrading from v3.0.0 please run the install generator:
 
 ```shell
