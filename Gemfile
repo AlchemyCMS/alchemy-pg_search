@@ -11,7 +11,7 @@ gem "pg", "~> 1.0"
 gem "puma"
 
 group :test do
-  gem "factory_bot_rails", "~> 4.8.0"
+  gem "factory_bot_rails", "~> 6.5.1"
   gem "capybara"
   gem "pry-byebug"
   gem "launchy"
