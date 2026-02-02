@@ -236,6 +236,24 @@ and reindex your database in your Rails console
 $ Alchemy::PgSearch.rebuild
 ```
 
+## Local Development
+
+A Docker Compose file provides PostgreSQL 17 for local development. Start it with:
+
+```shell
+$ docker compose up -d
+```
+
+The database runs on port 15434 to avoid conflicts with local PostgreSQL installations.
+
+Run the setup script to install dependencies and prepare the dummy app:
+
+```shell
+$ bin/setup
+```
+
+This installs gems, runs the Alchemy and PgSearch installers, and clears temporary files.
+
 ## Contributing
 
 1. Fork it
