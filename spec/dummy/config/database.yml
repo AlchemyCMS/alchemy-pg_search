@@ -1,10 +1,16 @@
-test:
+default: &default
   adapter: postgresql
-  database: alchemy_pg_search_test
-  host: localhost
-  <% if ENV['CI'] %>
-  username: postgres
-  password: password
-  <% end %>
+  host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
+  username: <%= ENV.fetch('POSTGRES_USER', 'postgres') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'password') %>
+  port: <%= ENV.fetch('POSTGRES_PORT', 15434) %>
   pool: 5
   timeout: 5000
+
+development:
+  <<: *default
+  database: alchemy_pg_search_development
+
+test:
+  <<: *default
+  database: alchemy_pg_search_test

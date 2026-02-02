@@ -1,0 +1,15 @@
+name: alchemy-pg_search
+services:
+  postgres:
+    image: "postgres:17-alpine"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=alchemy_pg_search_test
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    ports:
+      - 15434:5432
+
+volumes:
+  database_data:

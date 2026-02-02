@@ -21,6 +21,7 @@ jobs:
     env:
       RAILS_ENV: test
       ALCHEMY_CMS_VERSION: ${{ matrix.alchemy_cms }}
+      POSTGRES_PORT: 5432
     services:
       postgres:
         image: postgres:12
