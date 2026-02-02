@@ -236,6 +236,16 @@ and reindex your database in your Rails console
 $ Alchemy::PgSearch.rebuild
 ```
 
+## Local Development
+
+Run the setup script to install dependencies and prepare the dummy app:
+
+```shell
+$ bin/setup
+```
+
+This installs gems, runs the Alchemy and PgSearch installers, and clears temporary files.
+
 ## Contributing
 
 1. Fork it
