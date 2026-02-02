@@ -5,7 +5,7 @@ module Alchemy::Search::IngredientExtension
 
   def searchable?
     Alchemy.searchable_ingredients.has_key?(type.to_sym) &&
-      (definition.key?(:searchable) ? definition[:searchable] : true) &&
+      definition.searchable &&
       !!element&.searchable?
   end
 end

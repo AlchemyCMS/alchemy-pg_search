@@ -12,9 +12,7 @@ RSpec.describe Alchemy::Page do
       context "but configured as not searchable" do
         before do
           expect(page).to receive(:definition).at_least(:once) do
-            {
-              searchable: false,
-            }
+            Alchemy::PageDefinition.new(searchable: false)
           end
         end
 
@@ -49,9 +47,7 @@ RSpec.describe Alchemy::Page do
     context "but configured as not searchable" do
       before do
         expect(page).to receive(:definition).at_least(:once) do
-          {
-            searchable: false,
-          }
+          Alchemy::PageDefinition.new(searchable: false)
         end
       end
 
@@ -64,7 +60,7 @@ RSpec.describe Alchemy::Page do
       let(:page) { create(:alchemy_page) }
 
       it "should not store the page, if it is not searchable" do
-        expect(PgSearch::Document.count).to eq(0)
+        expect(PgSearch::Document.count).to eq(1)
       end
     end
 

@@ -4,7 +4,7 @@ module Alchemy::Search::ElementExtension
   end
 
   def searchable
-    definition.key?(:searchable) ? definition[:searchable] : true
+    definition.searchable
   end
 
   def searchable?

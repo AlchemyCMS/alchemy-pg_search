@@ -8,10 +8,11 @@ describe Alchemy::PgSearch do
     subject { described_class.rebuild }
 
     it 'should have created pages indexed documents' do
-      expect(PgSearch::Document.count).to be(2)
+      expect(PgSearch::Document.count).to be(3)
     end
 
     it "has an additional page (Root Page + 2 created pages)" do
+      PgSearch::Document.first.destroy # remove root page document
       expect { subject }.to change { PgSearch::Document.count }.by(1)
     end
 

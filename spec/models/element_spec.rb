@@ -11,10 +11,7 @@ RSpec.describe Alchemy::Element do
 
     before do
       expect(Alchemy::Element).to receive(:definition_by_name).at_least(:once) do
-        {
-          name: "foo",
-          searchable: false,
-        }
+        Alchemy::ElementDefinition.new(name: "foo", searchable: false)
       end
     end
 
@@ -34,9 +31,7 @@ RSpec.describe Alchemy::Element do
       context "but configured as not searchable" do
         before do
           expect(element).to receive(:definition).at_least(:once) do
-            {
-              searchable: false,
-            }
+            Alchemy::ElementDefinition.new(searchable: false)
           end
         end
 
