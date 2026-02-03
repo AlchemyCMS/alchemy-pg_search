@@ -13,8 +13,14 @@ on:
 jobs:
   RSpec:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["3.2", "3.4"]
+        alchemy_cms: ["7.4"]
     env:
       RAILS_ENV: test
+      ALCHEMY_CMS_VERSION: ${{ matrix.alchemy_cms }}
     services:
       postgres:
         image: postgres:12
@@ -31,7 +37,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2
+          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Prepare database
         run: bundle exec rake alchemy:spec:prepare
