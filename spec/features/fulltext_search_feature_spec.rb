@@ -103,10 +103,11 @@ RSpec.describe "Fulltext search" do
     end
 
     context "in multi_language mode" do
-      let(:english_language) { create(:alchemy_language, :english) }
-      let(:english_language_root) { create(:alchemy_page, :language_root, language: english_language, name: "Home") }
-      let(:english_page) { create(:alchemy_page, :public, parent_id: english_language_root.id, language: english_language) }
-      let!(:english_element) { create(:alchemy_element, :with_ingredients, page: english_page, name: "article") }
+      let!(:german_language) { create(:alchemy_language, :german) }
+      let(:klingon_language) { create(:alchemy_language, :klingon) }
+      let(:klingon_language_root) { create(:alchemy_page, :language_root, language: klingon_language, name: "Home") }
+      let(:klingon_page) { create(:alchemy_page, :public, parent_id: klingon_language_root.id, language: klingon_language) }
+      let!(:klingon_element) { create(:alchemy_element, :with_ingredients, page: klingon_page, name: "article") }
 
       before do
         element
@@ -114,7 +115,7 @@ RSpec.describe "Fulltext search" do
       end
 
       it "does not display search results from other languages" do
-        english_element.ingredient_by_role("headline").update!(value: "Joes Hardware")
+        klingon_element.ingredient_by_role("headline").update!(value: "Joes Hardware")
         visit("/de/suche?query=Hardware")
         expect(page).to have_css("h2.no_search_results")
         expect(page).to_not have_css(".search_result_list")

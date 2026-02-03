@@ -42,6 +42,7 @@ module Dummy
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.available_locales = [:de, :en]
     config.i18n.default_locale = :de
+    config.i18n.fallbacks = [:en]
     I18n.enforce_available_locales = false
     # Don't generate system test files.
     config.generators.system_tests = nil
