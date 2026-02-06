@@ -1,3 +1,10 @@
+development:
+  adapter: postgresql
+  database: alchemy_pg_search_development
+  host: localhost
+  pool: 5
+  timeout: 5000
+
 test:
   adapter: postgresql
   database: alchemy_pg_search_test

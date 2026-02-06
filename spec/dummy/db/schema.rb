@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_06_130317) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_04_104766) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -189,6 +189,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_06_130317) do
     t.index ["urlname"], name: "index_pages_on_urlname"
   end
 
+  create_table "alchemy_picture_descriptions", force: :cascade do |t|
+    t.bigint "picture_id", null: false
+    t.bigint "language_id", null: false
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language_id"], name: "index_alchemy_picture_descriptions_on_language_id"
+    t.index ["picture_id", "language_id"], name: "alchemy_picture_descriptions_on_picture_id_and_language_id", unique: true
+    t.index ["picture_id"], name: "index_alchemy_picture_descriptions_on_picture_id"
+  end
+
   create_table "alchemy_picture_thumbs", force: :cascade do |t|
     t.bigint "picture_id", null: false
     t.string "signature", null: false
@@ -277,5 +288,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_06_130317) do
   add_foreign_key "alchemy_page_mutexes", "alchemy_pages", column: "page_id"
   add_foreign_key "alchemy_page_versions", "alchemy_pages", column: "page_id", on_delete: :cascade
   add_foreign_key "alchemy_pages", "alchemy_languages", column: "language_id"
+  add_foreign_key "alchemy_picture_descriptions", "alchemy_languages", column: "language_id"
+  add_foreign_key "alchemy_picture_descriptions", "alchemy_pictures", column: "picture_id"
   add_foreign_key "alchemy_picture_thumbs", "alchemy_pictures", column: "picture_id"
 end
