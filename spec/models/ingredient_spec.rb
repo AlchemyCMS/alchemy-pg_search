@@ -10,9 +10,7 @@ RSpec.shared_examples_for "it is searchable" do |attribute|
       context "but configured as not searchable" do
         before do
           expect(ingredient).to receive(:definition).at_least(:once) do
-            {
-              searchable: false,
-            }
+            Alchemy::IngredientDefinition.new(searchable: false)
           end
         end
 

@@ -21,17 +21,17 @@ module Alchemy
 
       def self.search_result_page
         @search_result_page ||= begin
-          page_layouts = PageLayout.all.select do |page_layout|
-            page_layout.key?(:searchresults) && page_layout[:searchresults].to_s.casecmp(true.to_s).zero?
+          page_definitions = ::Alchemy::PageDefinition.all.select do |page_definition|
+            page_definition.searchresults
           end
 
-          if page_layouts.nil?
+          if page_definitions.nil?
             raise "No searchresults page layout found. Please add page layout with `searchresults: true` into your `page_layouts.yml` file."
           end
 
           page = Page.published.find_by(
-            page_layout: page_layouts.first["name"],
-            language_id: Language.current.id,
+            page_layout: page_definitions.first.name,
+            language_id: ::Alchemy::Current.language.id,
           )
           if page.nil?
             logger.warn "\n++++++\nNo published search result page found. Please create one or publish your search result page.\n++++++\n"

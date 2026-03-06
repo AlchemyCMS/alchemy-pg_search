@@ -2,8 +2,7 @@
 #
 module Alchemy::Search::PageExtension
   def searchable?
-    (definition.key?(:searchable) ? definition[:searchable] : true) &&
-      searchable && public? && !layoutpage?
+    definition.searchable && searchable && public? && !layoutpage?
   end
 
   def searchable_content
