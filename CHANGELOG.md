@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.4.0 (2026-03-17)
+
+## What's Changed
+* Add reusable release workflows by @tvdeyen in https://github.com/AlchemyCMS/alchemy-pg_search/pull/64
+* Pass rubygems_api_key secret to release workflow by @tvdeyen in https://github.com/AlchemyCMS/alchemy-pg_search/pull/65
+* Update Alchemy to v7.4.x by @sascha-karnatz in https://github.com/AlchemyCMS/alchemy-pg_search/pull/68
+
+
+**Full Changelog**: https://github.com/AlchemyCMS/alchemy-pg_search/compare/v6.1.0...v7.4.0
+
 ## [v6.1.0](https://github.com/AlchemyCMS/alchemy-pg_search/tree/v6.1.0) (2024-12-13)
 
 [Full Changelog](https://github.com/AlchemyCMS/alchemy-pg_search/compare/v6.0.0...v6.1.0)
