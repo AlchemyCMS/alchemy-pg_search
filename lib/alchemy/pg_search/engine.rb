@@ -12,12 +12,12 @@ module Alchemy
         end
 
         # In development environment, this runs on every code reload, so avoid multiple reindexing jobs
-        unless Alchemy.publish_targets.map(&:name).include? 'Alchemy::PgSearch::IndexPageJob'
+        unless Alchemy.config.publish_targets.map(&:name).include? 'Alchemy::PgSearch::IndexPageJob'
           # reindex the page after it was published
           Alchemy.config.publish_targets << "Alchemy::PgSearch::IndexPageJob"
         end
         # enable searchable flag in page form
-        Alchemy.enable_searchable = true
+        Alchemy.config.show_page_searchable_checkbox = true
 
         # configure multiselect to find also partial words
         # @link https://github.com/Casecommons/pg_search#searching-using-different-search-features
