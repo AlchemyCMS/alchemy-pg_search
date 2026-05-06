@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.2.0 (2026-05-06)
+
+## What's Changed
+* Add bin/setup script by @sascha-karnatz in https://github.com/AlchemyCMS/alchemy-pg_search/pull/70
+* Upgrade Alchemy v8.0 by @sascha-karnatz in https://github.com/AlchemyCMS/alchemy-pg_search/pull/69
+* Release v8.0.0 by @alchemycms-bot[bot] in https://github.com/AlchemyCMS/alchemy-pg_search/pull/74
+* Start development of version 8.1.0.dev by @alchemycms-bot[bot] in https://github.com/AlchemyCMS/alchemy-pg_search/pull/75
+* Remove AlchemyCMS deprecations by @sascha-karnatz in https://github.com/AlchemyCMS/alchemy-pg_search/pull/76
+
+
+**Full Changelog**: https://github.com/AlchemyCMS/alchemy-pg_search/compare/v7.4.0...v8.2.0
+
 ## 8.0.0 (2026-03-17)
 
 ## What's Changed
