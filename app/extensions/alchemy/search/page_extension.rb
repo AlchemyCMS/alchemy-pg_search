@@ -6,7 +6,7 @@ module Alchemy::Search::PageExtension
   end
 
   def searchable_content
-    all_elements.includes(ingredients: {element: :page}).map(&:searchable_content).join(" ")
+    all_elements.includes(:page, :page_version, {parent_element: :parent_element}, ingredients: {element: :page}).map(&:searchable_content).join(" ")
   end
 end
 
