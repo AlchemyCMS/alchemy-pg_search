@@ -66,6 +66,33 @@ RSpec.describe Alchemy::Element do
         is_expected.to be(false)
       end
     end
+
+    context "with unpublished parent element" do
+      let(:page_version) { create(:alchemy_page_version, :published) }
+      let(:parent_element_unpublished) { create(:alchemy_element, page_version: page_version, public_on: nil) }
+      let(:parent_element) { create(:alchemy_element, parent_element: parent_element_unpublished, page_version: page_version) }
+      let(:element) { create(:alchemy_element, parent_element: parent_element, page_version: page_version) }
+
+      it "should not be searchable" do
+        is_expected.to be(false)
+      end
+    end
+
+    context "with not searchable parent element" do
+      let(:page_version) { create(:alchemy_page_version, :published) }
+      let(:parent_element) { create(:alchemy_element, page_version: page_version) }
+      let(:element) { create(:alchemy_element, parent_element: parent_element, page_version: page_version) }
+
+      before do
+        expect(parent_element).to receive(:definition).at_least(:once) do
+          Alchemy::ElementDefinition.new(searchable: false)
+        end
+      end
+
+      it "should not be searchable" do
+        is_expected.to be(false)
+      end
+    end
   end
 
   describe "searchable_content" do
