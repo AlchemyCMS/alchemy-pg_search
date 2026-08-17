@@ -23,7 +23,7 @@ jobs:
       ALCHEMY_CMS_VERSION: ${{ matrix.alchemy_cms }}
     services:
       postgres:
-        image: postgres:12
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
